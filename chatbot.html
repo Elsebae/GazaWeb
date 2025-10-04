@@ -574,17 +574,20 @@ Or ask for an "overview" to see all challenges at once!`;
         </button>
     );
 }
-
+            
+if (isOpen) {
  return (
     <div 
         style={{
             position: 'fixed',
-            bottom: window.innerWidth <= 768 ? '5px' : '24px',
-            right: window.innerWidth <= 768 ? '50%' : '24px',
-            transform: window.innerWidth <= 768 ? 'translateX(50%)' : 'none',
-            width: window.innerWidth <= 768 ? 'calc(100vw - 20px)' : '420px',
-            maxWidth: window.innerWidth <= 768 ? '420px' : 'none',
-            height: window.innerWidth <= 768 ? 'calc(100vh - 100px)' : '650px',
+            bottom: window.innerWidth <= 768 ? '10px' : '24px',
+            left: window.innerWidth <= 768 ? '50%' : 'auto',
+            right: window.innerWidth <= 768 ? 'auto' : '24px',
+            transform: window.innerWidth <= 768 ? 'translateX(-50%)' : 'none',
+            width: window.innerWidth <= 768 ? '95vw' : '420px',
+            maxWidth: '420px',
+            height: window.innerWidth <= 768 ? '85vh' : '650px',
+            maxHeight: window.innerWidth <= 768 ? '85vh' : 'none',
             background: 'rgba(30, 15, 50, 0.95)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(138, 43, 226, 0.3)',
@@ -594,7 +597,7 @@ Or ask for an "overview" to see all challenges at once!`;
             flexDirection: 'column',
             zIndex: 9999
         }}
-    >
+    > }
                 
                     {/* Header */}
                     <div 
@@ -773,6 +776,7 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
 
 
 
