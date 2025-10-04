@@ -197,7 +197,18 @@
             box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
             border-color: rgba(187, 134, 252, 0.5);
         }
-
+        /* Video Responsive Design */
+        .content-section video {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .content-section video {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
         .section-title {
             color: #bb86fc;
             font-size: 2rem;
@@ -379,11 +390,9 @@
 
         <section class="content-section">
             <h2 class="section-title">🎥 Explanation Video</h2>
-            <video width="1050" height="450" controls>
-                 <source src="Overview.mp4" type="video/mp4">
+            <video width="100%" style="max-width: 1050px; height: auto;" controls>
+                <source src="Overview.mp4" type="video/mp4">
             </video>
-
-            
         </section>
 
         <section class="content-section">
@@ -433,3 +442,4 @@
 </body>
 
 </html>
+
