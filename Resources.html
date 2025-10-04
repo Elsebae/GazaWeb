@@ -211,33 +211,9 @@
             color: #c0b0d0;
             font-size: 0.85rem;
         }
-        .chatbot-container {
-    position: relative;
-    width: 100%;
-    height: 700px;
-    max-width: 100%;
-}
+    
 
-.chatbot-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
 
-/* Tablet */
-@media (max-width: 768px) {
-    .chatbot-container {
-        height: 600px;
-    }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    .chatbot-container {
-        height: 100vh;
-        max-height: 800px;
-    }
-}
 
         footer {
             background: rgba(20, 10, 40, 0.95);
@@ -362,13 +338,7 @@
 
 
     </main>
-<div class="chatbot-container">
-    <iframe 
-        src="chatbot.html" 
-        frameborder="0"
-        class="chatbot-iframe"
-    ></iframe>
-</div>
+
     <footer>
         <div class="footer-content">
             <div class="footer-links">
@@ -382,8 +352,50 @@
             </div>
         </div>
     </footer>
+    <!-- Chatbot Integration -->
+    <script>
+        // Load chatbot in a way that doesn't block page interaction
+        window.addEventListener('load', function() {
+            const chatbotFrame = document.createElement('iframe');
+            chatbotFrame.src = 'chatbot.html';
+            chatbotFrame.style.cssText = `
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                z-index: 999999;
+                pointer-events: none;
+            `;
+            chatbotFrame.id = 'chatbot-iframe';
+            document.body.appendChild(chatbotFrame);
+            
+            // Enable clicks in bottom-right area where chatbot button is
+            const enableArea = document.createElement('div');
+            enableArea.style.cssText = `
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 500px;
+                height: 750px;
+                z-index: 999998;
+                pointer-events: auto;
+            `;
+            enableArea.addEventListener('click', function(e) {
+                chatbotFrame.style.pointerEvents = 'auto';
+                setTimeout(() => {
+                    chatbotFrame.style.pointerEvents = 'none';
+                }, 100);
+            });
+            document.body.appendChild(enableArea);
+        });
+    </script>
+</body>
+</html>
 
 </body>
 </html>
+
 
 
