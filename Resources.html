@@ -352,50 +352,13 @@
             </div>
         </div>
     </footer>
-    <!-- Chatbot Integration -->
-    <script>
-        // Load chatbot in a way that doesn't block page interaction
-        window.addEventListener('load', function() {
-            const chatbotFrame = document.createElement('iframe');
-            chatbotFrame.src = 'chatbot.html';
-            chatbotFrame.style.cssText = `
-                position: fixed;
-                bottom: 0;
-                right: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-                z-index: 999999;
-                pointer-events: none;
-            `;
-            chatbotFrame.id = 'chatbot-iframe';
-            document.body.appendChild(chatbotFrame);
-            
-            // Enable clicks in bottom-right area where chatbot button is
-            const enableArea = document.createElement('div');
-            enableArea.style.cssText = `
-                position: fixed;
-                bottom: 0;
-                right: 0;
-                width: 500px;
-                height: 750px;
-                z-index: 999998;
-                pointer-events: auto;
-            `;
-            enableArea.addEventListener('click', function(e) {
-                chatbotFrame.style.pointerEvents = 'auto';
-                setTimeout(() => {
-                    chatbotFrame.style.pointerEvents = 'none';
-                }, 100);
-            });
-            document.body.appendChild(enableArea);
-        });
-    </script>
+
 </body>
 </html>
 
 </body>
 </html>
+
 
 
 
