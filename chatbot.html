@@ -575,18 +575,14 @@ Or ask for an "overview" to see all challenges at once!`;
     );
 }
             
- return (
+return (
     <div 
         style={{
             position: 'fixed',
-            bottom: window.innerWidth <= 768 ? '10px' : '24px',
-            left: window.innerWidth <= 768 ? '50%' : 'auto',
-            right: window.innerWidth <= 768 ? 'auto' : '24px',
-            transform: window.innerWidth <= 768 ? 'translateX(-50%)' : 'none',
+            bottom: '24px',
+            right: '24px',
             width: window.innerWidth <= 768 ? '95vw' : '420px',
-            maxWidth: '420px',
             height: window.innerWidth <= 768 ? '85vh' : '650px',
-            maxHeight: window.innerWidth <= 768 ? '85vh' : 'none',
             background: 'rgba(30, 15, 50, 0.95)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(138, 43, 226, 0.3)',
@@ -594,9 +590,14 @@ Or ask for an "overview" to see all challenges at once!`;
             boxShadow: '0 15px 40px rgba(138, 43, 226, 0.4)',
             display: 'flex',
             flexDirection: 'column',
-            zIndex: 9999
+            zIndex: 9999,
+            ...(window.innerWidth <= 768 && {
+                left: '50%',
+                right: 'auto',
+                transform: 'translateX(-50%)'
+            })
         }}
-    > 
+    >
                 
                     {/* Header */}
                     <div 
@@ -775,6 +776,7 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
 
 
 
