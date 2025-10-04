@@ -388,7 +388,33 @@
         .success-message.show {
             display: block;
         }
+.chatbot-container {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    max-width: 100%;
+}
 
+.chatbot-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .chatbot-container {
+        height: 600px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .chatbot-container {
+        height: 100vh;
+        max-height: 800px;
+    }
+}
         footer {
             background: rgba(20, 10, 40, 0.95);
             padding: 2.5rem 2rem;
@@ -605,11 +631,13 @@
             </div>
         </div>
     </footer>
-        <iframe 
-        src="chatbot.html" 
-        style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
-    </iframe>
-
+<div class="chatbot-container">
+    <iframe 
+        src="gaza-chatbot.html" 
+        frameborder="0"
+        class="chatbot-iframe"
+    ></iframe>
+</div>
     <script>
         document.getElementById('suggestionForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -679,3 +707,4 @@
     </script>
 </body>
 </html>
+
