@@ -63,11 +63,6 @@
             z-index: 0;
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-
         nav, main, footer {
             position: relative;
             z-index: 1;
@@ -196,37 +191,12 @@
             box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
             border-color: rgba(187, 134, 252, 0.5);
         }
-        /* Video Responsive Design */
-.content-section video {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-}
 
-@media (max-width: 768px) {
-    .content-section video {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-    }
-
-    .content-section {
-        padding: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .content-section {
-        padding: 1rem;
-    }
-
-    .section-title {
-        font-size: 1.3rem;
-    }
-}
+        .content-section video {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+        }
 
         .section-title {
             color: #bb86fc;
@@ -237,7 +207,6 @@
             gap: 0.5rem;
             text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
         }
-
 
         .overview-grid {
             display: grid;
@@ -306,6 +275,8 @@
             padding: 2.5rem 2rem;
             margin-top: 3rem;
             border-top: 1px solid rgba(138, 43, 226, 0.3);
+            position: relative;
+            z-index: 10;
         }
 
         .footer-content {
@@ -339,33 +310,19 @@
             padding-top: 1rem;
             border-top: 1px solid rgba(138, 43, 226, 0.3);
         }
-        .chatbot-container {
-    position: relative;
-    width: 100%;
-    height: 700px;
-    max-width: 100%;
-}
 
-.chatbot-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Tablet */
-@media (max-width: 768px) {
-    .chatbot-container {
-        height: 600px;
-    }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    .chatbot-container {
-        height: 100vh;
-        max-height: 800px;
-    }
-}
+        /* Chatbot iframe styles */
+        #chatbot-frame {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+            pointer-events: none !important;
+            z-index: 999999 !important;
+            background: transparent !important;
+        }
 
         @media (max-width: 768px) {
             .nav-container {
@@ -395,14 +352,34 @@
             .content-section {
                 padding: 1.5rem;
             }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Chatbot iframe - MOVED TO TOP -->
+    <iframe 
+        src="chatbot.html"
+        id="chatbot-frame"
+    ></iframe>
+
     <nav>
         <div class="nav-container">
             <div class="logo">
-                Pathways of Hope ✨
+                Pathways of Hope
             </div>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
@@ -434,29 +411,28 @@
             </div>
         </section>
 
-      <section class="content-section">
-    <h2 class="section-title">🎥 Explanation Video</h2>
-    <video style="max-width: 1050px; width: 100%; height: auto;" controls>
-        <source src="Overview.mp4" type="video/mp4">
-    </video>
-</section>
+        <section class="content-section">
+            <h2 class="section-title">Explanation Video</h2>
+            <video style="max-width: 1050px; width: 100%; height: auto;" controls>
+                <source src="Overview.mp4" type="video/mp4">
+            </video>
+        </section>
 
         <section class="content-section">
-            <h2 class="section-title">🌟 Project Overview</h2>
-            <P>The Gaza Strip faces one of the world’s most critical water crises, with over 90% of the population lacking reliable access to safe drinking water. Years of conflict, damaged infrastructure, fuel shortages, and over-extraction of groundwater have left desalination plants and sewage treatment systems barely functional. This has resulted in severe water insecurity, the spread of waterborne diseases, and heavy dependence on humanitarian aid.
-                <br>
-               Our project addresses this crisis by developing an educational and solution-driven digital platform. The platform integrates NASA Earth observation datasets with humanitarian reports to visualize water scarcity, pollution levels, and infrastructure status in Gaza. Through interactive dashboards and simplified data stories, it aims to raise awareness, support decision-making, and empower communities.</P>
+            <h2 class="section-title">Project Overview</h2>
+            <p>The Gaza Strip faces one of the world's most critical water crises, with over 90% of the population lacking reliable access to safe drinking water. Years of conflict, damaged infrastructure, fuel shortages, and over-extraction of groundwater have left desalination plants and sewage treatment systems barely functional. This has resulted in severe water insecurity, the spread of waterborne diseases, and heavy dependence on humanitarian aid.</p>
+            <br>
+            <p>Our project addresses this crisis by developing an educational and solution-driven digital platform. The platform integrates NASA Earth observation datasets with humanitarian reports to visualize water scarcity, pollution levels, and infrastructure status in Gaza. Through interactive dashboards and simplified data stories, it aims to raise awareness, support decision-making, and empower communities.</p>
             
             <div class="overview-grid">
-        
                 <div class="overview-card">
-                    <h3>💡 Innovative Solutions</h3>
-                    <p>We created creative solutions for Gaza’s water, air, and infrastructure crises. Our website includes data tools, an AI chatbot, and a donation box for money or ideas.</p>
+                    <h3>Innovative Solutions</h3>
+                    <p>We created creative solutions for Gaza's water, air, and infrastructure crises. Our website includes data tools, an AI chatbot, and a donation box for money or ideas.</p>
                 </div>
                 
                 <div class="overview-card">
-                    <h3>🤖 AI Chatbot </h3>
-                    <p>A user-friendly chatbot that delivers practical advice, crisis updates, and sustainable solutions for Gaza’s water, air, and infrastructure challenges.</p>
+                    <h3>AI Chatbot</h3>
+                    <p>A user-friendly chatbot that delivers practical advice, crisis updates, and sustainable solutions for Gaza's water, air, and infrastructure challenges.</p>
                 </div>
             </div>
         </section>
@@ -464,11 +440,10 @@
         <section class="cta-section">
             <h2>Ready to Explore Our Solution?</h2>
             <p>Discover how we're bridging space technology and healthcare innovation</p>
-            <a href="Challenges.html" class="cta-button">View Our Challenge →</a>
+            <a href="Challenges.html" class="cta-button">View Our Challenge</a>
         </section>
     </main>
 
-</div>
     <footer>
         <div class="footer-content">
             <div class="footer-links">
@@ -478,17 +453,17 @@
                 <a href="Resources.html" target="_blank" rel="noopener noreferrer">Resources</a>
             </div>
             <div class="footer-copyright">
-                © 2025 NASA Space Apps Challenge - Health Innovation Team
+                2025 NASA Space Apps Challenge - Health Innovation Team
             </div>
         </div>
     </footer>
-   <iframe 
-        src="chatbot.html"
-        style="position:fixed;bottom:0;right:0;width:100%;height:100%;border:none;pointer-events:none;z-index:99999;"
-    ></iframe>
+
+    <script>
+        // Enable pointer events for chatbot interaction
+        const chatbotFrame = document.getElementById('chatbot-frame');
+        chatbotFrame.addEventListener('mouseenter', function() {
+            this.style.pointerEvents = 'auto';
+        });
+    </script>
 </body>
 </html>
-
-
-
-
