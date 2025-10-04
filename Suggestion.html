@@ -438,20 +438,6 @@
                 transform: translateY(0);
             }
         }
-     #chatbot-iframe {
-    pointer-events: none; /* iframe doesn't block clicks */
-}
-
-/* On mobile, keep same behavior */
-@media (max-width: 768px) {
-    #chatbot-iframe {
-        width: 100vw;
-        height: 100vh;
-        bottom: 0;
-        right: 0;
-        left: 0;
-    }
-}
 
         @media (max-width: 968px) {
             .content-container {
@@ -619,10 +605,10 @@
             </div>
         </div>
     </footer>
-<iframe 
-    src="chatbot.html" 
-    style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
-</iframe>
+        <iframe 
+        src="chatbot.html" 
+        style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
+    </iframe>
 
     <script>
         document.getElementById('suggestionForm').addEventListener('submit', function(e) {
@@ -692,8 +678,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
-
