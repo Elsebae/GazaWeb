@@ -197,6 +197,18 @@
             box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
             border-color: rgba(187, 134, 252, 0.5);
         }
+        /* Video Responsive Design */
+        .content-section video {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .content-section video {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
 
         .section-title {
             color: #bb86fc;
@@ -377,15 +389,12 @@
             </div>
         </section>
 
-        <section class="content-section">
+                <section class="content-section">
             <h2 class="section-title">🎥 Explanation Video</h2>
-            <video width="1050" height="450" controls>
-                 <source src="Overview.mp4" type="video/mp4">
+            <video width="100%" style="max-width: 1050px; height: auto;" controls>
+                <source src="Overview.mp4" type="video/mp4">
             </video>
-
-            
         </section>
-
         <section class="content-section">
             <h2 class="section-title">🌟 Project Overview</h2>
             <P>The Gaza Strip faces one of the world’s most critical water crises, with over 90% of the population lacking reliable access to safe drinking water. Years of conflict, damaged infrastructure, fuel shortages, and over-extraction of groundwater have left desalination plants and sewage treatment systems barely functional. This has resulted in severe water insecurity, the spread of waterborne diseases, and heavy dependence on humanitarian aid.
