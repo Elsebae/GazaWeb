@@ -12,15 +12,6 @@
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        @media (max-width: 768px) {
-            .chatbot-open {
-                width: 95vw !important;
-                height: 85vh !important;
-                left: 2.5vw !important;
-                right: 2.5vw !important;
-                bottom: 10px !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -31,6 +22,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <script type="text/babel">
+        
         const { useState, useRef, useEffect } = React;
 
         // Lucide Icons as inline SVGs
@@ -350,95 +342,118 @@ Temporary shelters, construction materials, sanitation equipment, concrete crush
             const getConversationalResponse = (input) => {
                 const lower = input.toLowerCase();
                 
-                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
-                    return "Take care! Feel free to come back anytime you want to chat or learn something new. Have a great day!";
-                }
-                
-                if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
-                    return "No problem! I understand. If you need anything else later, I'll be here. Take care!";
-                }
-                
-                if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood)$/)) {
-                    return "Glad I could help! Anything else you'd like to know, or are we good for now?";
-                }
-                
-                if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny)$/)) {
-                    return "Haha, glad you're in good spirits! So, want to keep chatting or learn about something specific?";
-                }
-                
-                if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see)$/)) {
-                    return "Thinking it over? Take your time! If you have questions about anything, just ask. I'm here to help!";
-                }
-                
-                if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
-                    return "Right?! There's a lot to take in. Want me to explain more about any topic, or just chat for a bit?";
-                }
-                
+                // Greetings
+                // Bye/goodbye
+if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
+    return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
+}
+
+// That's enough / I'm done
+if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
+    return "No problem! I understand. If you need anything else later, I'll be here. Take care! 😊";
+}
+
+// Good/satisfied responses
+if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood)$/)) {
+    return "Glad I could help! 😊 Anything else you'd like to know, or are we good for now?";
+}
+// Laughs and reactions
+if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny|😂|🤣)$/)) {
+    return "Haha, glad you're in good spirits! 😄 So, want to keep chatting or learn about something specific?";
+}
+
+// Hmm/thinking
+if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see)$/)) {
+    return "Thinking it over? Take your time! If you have questions about anything, just ask. I'm here to help! 🤔";
+}
+
+// Wow/surprise
+if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
+    return "Right?! There's a lot to take in. Want me to explain more about any topic, or just chat for a bit? 😊";
+}
                 if (lower.match(/^(hi|hello|hey|greetings|sup|yo)$/)) {
-                    return "Hey there! How are you doing today? I'm here to chat or help you learn about Gaza's humanitarian challenges. What's on your mind?";
+                    return "Hey there! 👋 How are you doing today? I'm here to chat or help you learn about Gaza's humanitarian challenges. What's on your mind?";
                 }
                 
+                // How are you
                 if (lower.match(/how are you|how are u|how r u|hows it going|whats up|wassup/)) {
-                    return "I'm doing well, thanks for asking! I'm here and ready to help. How about you? Is there anything specific you'd like to talk about or learn?";
+                    return "I'm doing well, thanks for asking! 😊 I'm here and ready to help. How about you? Is there anything specific you'd like to talk about or learn?";
                 }
                 
+                // Good/fine responses
                 if (lower.match(/^(good|fine|great|okay|ok|im good|i'm good|im fine|doing well)$/)) {
-                    return "That's great to hear! So, would you like to learn about the humanitarian situation in Gaza, or just have a casual chat?";
+                    return "That's great to hear! 😊 So, would you like to learn about the humanitarian situation in Gaza, or just have a casual chat?";
                 }
                 
+                // Not good responses
                 if (lower.match(/not good|not great|bad|sad|tired|stressed/)) {
-                    return "I'm sorry to hear that. If you want to talk about it, I'm here to listen. Or if you need a distraction, I can share some information about important topics. What would help you right now?";
+                    return "I'm sorry to hear that. 💙 If you want to talk about it, I'm here to listen. Or if you need a distraction, I can share some information about important topics. What would help you right now?";
                 }
                 
+                // Thank you
                 if (lower.match(/thank|thanks|thx|ty/)) {
-                    return "You're very welcome! Is there anything else I can help you with?";
+                    return "You're very welcome! 😊 Is there anything else I can help you with?";
                 }
                 
+                // Who are you
                 if (lower.match(/who are you|what are you|tell me about yourself/)) {
-                    return "I'm GAZA 101, a friendly AI assistant! I'm here to chat with you and provide information about humanitarian challenges in Gaza - covering Water, Food, Health, Energy, Infrastructure, and Environmental issues. I can be casual and friendly or dive deep into technical details. Whatever you need!";
+                    return "I'm GAZA 101, a friendly AI assistant! I'm here to chat with you and provide information about humanitarian challenges in Gaza - covering Water, Food, Health, Energy, Infrastructure, and Environmental issues. I can be casual and friendly or dive deep into technical details. Whatever you need! 😊";
                 }
                 
+                // What can you do
                 if (lower.match(/what can you do|what do you do|how can you help|help me/)) {
-                    return "I can do a few things:\n\nHave friendly conversations (just like this!)\nShare detailed information about Gaza's challenges\nExplain practical solutions with timelines\nProvide statistics and NASA data\n\nWant to chat casually or learn something specific?";
+                    return "I can do a few things:\n\n💬 Have friendly conversations (just like this!)\n📚 Share detailed information about Gaza's challenges\n💡 Explain practical solutions with timelines\n📊 Provide statistics and NASA data\n\nWant to chat casually or learn something specific?";
                 }
                 
+                // Jokes/fun
                 if (lower.match(/joke|funny|make me laugh/)) {
-                    return "Haha, I'm better with facts than jokes! But here's something cool: Did you know NASA satellites can detect underground water sources from space? Pretty amazing, right? Want to hear more interesting facts?";
+                    return "Haha, I'm better with facts than jokes! 😅 But here's something cool: Did you know NASA satellites can detect underground water sources from space? Pretty amazing, right? Want to hear more interesting facts?";
                 }
                 
+                // Compliments
                 if (lower.match(/you're nice|you're cool|you're awesome|you're great|good bot/)) {
-                    return "Aww, thank you! That's really kind of you to say. You seem pretty awesome yourself! What would you like to chat about?";
+                    return "Aww, thank you! That's really kind of you to say 😊 You seem pretty awesome yourself! What would you like to chat about?";
                 }
                 
+                // Bye/goodbye
+                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg)$/)) {
+                    return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
+                }
+                
+                // Age
                 if (lower.match(/how old are you|what's your age|whats your age/)) {
                     return "I don't have an age like humans do! I'm an AI, so I'm kind of ageless. But I was created specifically to help people understand Gaza's humanitarian situation. Curious about anything else?";
                 }
                 
+                // Where from
                 if (lower.match(/where are you from|where do you live/)) {
                     return "I exist in the digital world - no specific location! But I was created to help people learn about Gaza and its challenges. Speaking of which, want to know about any specific topic?";
                 }
                 
+                // Feelings
                 if (lower.match(/do you have feelings|can you feel|are you alive/)) {
-                    return "I don't have feelings the way humans do, but I'm programmed to be helpful and friendly! I genuinely want to make your experience better. Is there something I can help you with today?";
+                    return "I don't have feelings the way humans do, but I'm programmed to be helpful and friendly! 😊 I genuinely want to make your experience better. Is there something I can help you with today?";
                 }
                 
+                // Name
                 if (lower.match(/what's your name|whats your name|your name/)) {
                     return "I'm GAZA 101! You can think of me as your friendly guide to understanding humanitarian challenges and solutions. Nice to meet you! What should I call you?";
                 }
                 
+                // Overview
                 if (lower.match(/all|everything|overview|summary|tell me about gaza/)) {
                     return `🌍 **GAZA OVERVIEW**
 
-Gaza faces 6 major humanitarian challenges:
+            Gaza faces 6 major humanitarian challenges:
 
-1. 💧 **Water** - 96% unfit for consumption
-2. 🌾 **Food** - 93% face food insecurity
-3. 🏥 **Health** - 72% hospitals non-functional
-4. ⚡ **Energy** - 2-4 hours electricity daily
-5. 🏗️ **Infrastructure** - 60% buildings damaged
-6. 🌍 **Environment** - 450K tons CO2 emissions
+            1. 💧 **Water** - 96% unfit for consumption
+            2. 🌾 **Food** - 93% face food insecurity
+            3. 🏥 **Health** - 72% hospitals non-functional
+            4. ⚡ **Energy** - 2-4 hours electricity daily
+            5. 🏗️ **Infrastructure** - 60% buildings damaged
+            6. 🌍 **Environment** - 450K tons CO2 emissions
 
-Want to know more about any of these?`;
+            Want to know more about any of these?`;
                 }
                 
                 return null;
@@ -502,47 +517,45 @@ Or ask for an "overview" to see all challenges at once!`;
                 }
             };
 
-            if (!isOpen) {
-                return (
-                    <button
-                        onClick={() => setIsOpen(true)}
-                        style={{
-                            position: 'fixed',
-                            bottom: '24px',
-                            right: '24px',
-                            background: 'linear-gradient(135deg, rgb(138, 43, 226), rgb(187, 134, 252))',
-                            color: 'white',
-                            padding: '18px',
-                            borderRadius: '50%',
-                            border: '3px solid rgba(255, 255, 255, 0.3)',
-                            cursor: 'pointer',
-                            boxShadow: '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)',
-                            zIndex: 9999,
-                            transition: 'all 0.3s ease',
-                            width: '70px',
-                            height: '70px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            pointerEvents: 'auto'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'scale(1.15)';
-                            e.currentTarget.style.boxShadow = '0 0 40px rgba(187, 134, 252, 1), 0 12px 35px rgba(0,0,0,0.5)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'scale(1)';
-                            e.currentTarget.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)';
-                        }}
-                    >
-                        <MessageCircle size={32} />
-                    </button>
-                );
-            }
-            
+ if (!isOpen) {
+    return (
+        <button
+            onClick={() => setIsOpen(true)}
+            style={{
+                position: 'fixed',
+                bottom: '24px',
+                right: '24px',
+                background: 'linear-gradient(135deg, rgb(138, 43, 226), rgb(187, 134, 252))',
+                color: 'white',
+                padding: '18px',
+                borderRadius: '50%',
+                border: '3px solid rgba(255, 255, 255, 0.3)',
+                cursor: 'pointer',
+                boxShadow: '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)',
+                zIndex: 9999,
+                transition: 'all 0.3s ease',
+                width: '70px',
+                height: '70px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}
+            onMouseEnter={(e) => {
+                e.target.style.transform = 'scale(1.15)';
+                e.target.style.boxShadow = '0 0 40px rgba(187, 134, 252, 1), 0 12px 35px rgba(0,0,0,0.5)';
+            }}
+            onMouseLeave={(e) => {
+                e.target.style.transform = 'scale(1)';
+                e.target.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)';
+            }}
+        >
+            <MessageCircle size={32} />
+        </button>
+    );
+}
+
             return (
                 <div 
-                    className="chatbot-open"
                     style={{
                         position: 'fixed',
                         bottom: '24px',
@@ -556,10 +569,10 @@ Or ask for an "overview" to see all challenges at once!`;
                         boxShadow: '0 15px 40px rgba(138, 43, 226, 0.4)',
                         display: 'flex',
                         flexDirection: 'column',
-                        zIndex: 9999,
-                        pointerEvents: 'auto'
+                        zIndex: 9999
                     }}
                 >
+                    {/* Header */}
                     <div 
                         style={{
                             background: 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))',
@@ -592,13 +605,14 @@ Or ask for an "overview" to see all challenges at once!`;
                                 cursor: 'pointer',
                                 transition: 'background 0.3s'
                             }}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.2)'}
+                            onMouseLeave={(e) => e.target.style.background = 'transparent'}
                         >
                             <X size={20} />
                         </button>
                     </div>
 
+                    {/* Messages */}
                     <div 
                         style={{
                             flex: 1,
@@ -643,4 +657,95 @@ Or ask for an "overview" to see all challenges at once!`;
                                         whiteSpace: 'pre-line',
                                         background: msg.type === 'user' 
                                             ? 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))'
-                                            : 'rgba(138,
+                                            : 'rgba(138, 43, 226, 0.2)',
+                                        border: msg.type === 'bot' ? '1px solid rgba(138, 43, 226, 0.3)' : 'none',
+                                        color: msg.type === 'user' ? 'white' : 'rgb(233, 213, 255)'
+                                    }}
+                                >
+                                    {msg.text}
+                                </div>
+                                {msg.type === 'user' && (
+                                    <div style={{
+                                        background: 'rgb(138, 43, 226)',
+                                        padding: '8px',
+                                        borderRadius: '50%',
+                                        width: '32px',
+                                        height: '32px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    }}>
+                                        <User size={16} className="text-white" />
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    {/* Input */}
+                    <div style={{ padding: '16px', borderTop: '1px solid rgba(138, 43, 226, 0.3)' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                placeholder="Ask about water, food, health..."
+                                style={{
+                                    flex: 1,
+                                    padding: '12px 16px',
+                                    borderRadius: '12px',
+                                    background: 'rgba(138, 43, 226, 0.2)',
+                                    border: '1px solid rgba(138, 43, 226, 0.3)',
+                                    color: 'white',
+                                    outline: 'none',
+                                    fontSize: '14px'
+                                }}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = 'rgb(187, 134, 252)';
+                                    e.target.style.boxShadow = '0 0 15px rgba(138, 43, 226, 0.3)';
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = 'rgba(138, 43, 226, 0.3)';
+                                    e.target.style.boxShadow = 'none';
+                                }}
+                            />
+                            <button
+                                onClick={handleSend}
+                                disabled={!input.trim()}
+                                style={{
+                                    padding: '12px',
+                                    borderRadius: '12px',
+                                    background: input.trim() 
+                                        ? 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))'
+                                        : 'rgba(138, 43, 226, 0.3)',
+                                    border: 'none',
+                                    color: 'white',
+                                    cursor: input.trim() ? 'pointer' : 'not-allowed',
+                                    opacity: input.trim() ? 1 : 0.5,
+                                    boxShadow: input.trim() ? '0 4px 15px rgba(138, 43, 226, 0.4)' : 'none',
+                                    transition: 'all 0.3s'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (input.trim()) e.target.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'scale(1)';
+                                }}
+                            >
+                                <Send size={20} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('chatbot-root'));
+        root.render(<GazaChatbot />);
+    </script>
+    
+</body>
+</html>
