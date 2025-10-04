@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Health Monitoring - NASA Space Apps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0512;
+            color: #e8e8e8;
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, white 2px, transparent 2px),
+                radial-gradient(circle, white 1.5px, transparent 1.5px),
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+                radial-gradient(circle, white 2.5px, transparent 2.5px);
+            background-size: 150px 150px, 200px 200px, 250px 250px, 180px 180px, 220px 220px, 300px 300px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 150px 50px, 90px 180px;
+            animation: twinkle 3s ease-in-out infinite alternate, drift 120s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(50, 0, 80, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(25, 0, 50, 0.25) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(15, 5, 30, 0.9) 0%, rgba(5, 0, 15, 0.95) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background: rgba(20, 10, 40, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(75, 0, 130, 0.4);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #bb86fc;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e8e8e8;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(138, 43, 226, 0.3);
+            color: #bb86fc;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 160px);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: #da70d6;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: #bb86fc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #da70d6;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .challenge-hero {
+            background: rgba(30, 15, 50, 0.4);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-hero:hover {
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.3);
+            border-color: rgba(187, 134, 252, 0.5);
+        }
+
+        .challenge-number-large {
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .challenge-hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #bb86fc, #da70d6, #9370db, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(187, 134, 252, 0.4)); }
+            to { filter: drop-shadow(0 0 25px rgba(187, 134, 252, 0.8)); }
+        }
+
+        .challenge-hero p {
+            font-size: 1.2rem;
+            color: #c0b0d0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: rgba(30, 15, 50, 0.4);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
+            border-color: rgba(187, 134, 252, 0.4);
+        }
+
+        .content-section h2 {
+            color: #bb86fc;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+        }
+
+        .content-section h3 {
+            color: #da70d6;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .content-section h4 {
+            color: #da70d6;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p {
+            color: #c0b0d0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-section ul {
+            list-style: none;
+            margin: 1rem 0;
+            padding: 0;
+        }
+
+        .content-section li {
+            color: #c0b0d0;
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+        }
+
+        .content-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #bb86fc;
+            font-weight: bold;
+        }
+
+        .photo img {
+            width: 100%;
+            max-width: 1050px;
+            height: auto;
+            border-radius: 12px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .photo img:hover {
+            border-color: rgba(187, 134, 252, 0.6);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(138, 43, 226, 0.15);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(138, 43, 226, 0.25);
+            border-color: rgba(187, 134, 252, 0.5);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: #bb86fc;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+        }
+
+        .stat-label {
+            color: #da70d6;
+            font-size: 0.9rem;
+        }
+        
+        .media-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .photos {
+            display: flex;     
+            gap: 20px;         
+        }
+
+        .photo1 {
+            display: flex;     
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .photo1:hover {
+            border-color: rgba(187, 134, 252, 0.6);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+            transform: scale(1.02);
+        }
+
+        .photo1 {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .photo1 img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: cover;   
+        }
+
+        .solutions-group {
+            margin-top: 2rem;
+        }
+
+        .solutions-group h4 {
+            margin-top: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .back-button:hover {
+            background: linear-gradient(45deg, #9370db, #bb86fc);
+            transform: translateX(-5px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.5);
+        }
+
+        .back-button::before {
+            content: '←';
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: rgba(20, 10, 40, 0.95);
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #da70d6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #bb86fc;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .footer-copyright {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .challenge-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .media-section {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .content-section,
+            .challenge-hero {
+                padding: 1.5rem;
+            }
+
+            .photo img {
+                height: auto;
+            }
+
+            .photo1 {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                Pathways of Hope ✨
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Challenges.html" class="active">Challenge</a></li>
+                <li><a href="Resources.html">Resources</a></li>
+                <li><a href="Suggestion.html">Suggestion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="breadcrumb">
+            <a href="Home.html">Home</a>
+            <span>/</span>
+            <a href="Challenges.html">Challenges</a>
+            <span>/</span>
+            <span>Recycling Rubble: A Community Solution for Gaza</span>
+        </div>
+
+        <section class="challenge-hero">
+            <div class="challenge-number-large">3</div>
+            <h1>Recycling Rubble: A Community Solution for Gaza</h1>
+        </section>
+
+        <section class="content-section">
+            <h2>Problem Statement</h2>
+            <p>Gaza faces massive infrastructure damage due to repeated demolitions and bombings. Entire neighborhoods have been reduced to rubble, leaving behind enormous amounts of construction waste. At the same time, access to fresh construction materials is extremely limited due to restrictions and high costs. This has created a dual crisis: huge piles of debris harming the environment and public safety, and a shortage of affordable building materials for reconstruction. Communities urgently need practical, local solutions that transform this rubble into resources for rebuilding homes, schools, hospitals, and public spaces.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">66%</div>
+                    <div class="stat-label">Total structures have sustained damage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">92%</div>
+                    <div class="stat-label">Primary roads destroyed or damaged</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">39M</div>
+                    <div class="stat-label">Tonnes of debris</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h4>Gaza's Infrastructure Today: A Landscape of Destruction</h4>
+            <div class="photo">
+                 <img src="Infrust1.jpeg" alt="Infrastructure destruction in Gaza">
+            </div> 
+        </section>
+
+        <section class="content-section">
+            <h2>Potential Solutions & Innovations</h2>
+            <p>Gaza's rubble is more than waste it's a resource waiting to be transformed. By recycling debris into usable materials, communities can rebuild homes, schools, and hospitals while creating jobs, reducing costs, and turning destruction into an opportunity for resilience.</p>
+
+            <h3>Turning Waste into Resources</h3>
+            <ul>
+                <li>Large amounts of rubble left after building demolitions.</li>
+                <li>Limited access to fresh construction materials.</li>
+                <li>Recycling rubble saves resources, reduces waste, and creates jobs.</li>
+            </ul>
+
+            <div class="solutions-group">
+                <h4><strong>1.</strong> Simple Community Steps</h4>
+                <ul>
+                    <li>Organize Teams → set up safe local recycling areas.</li>
+                    <li>Sort Materials → separate concrete, steel, wood, glass, plastics.</li>
+                    <li>Crush Concrete → produce gravel for roads and simple construction.</li>
+                    <li>Recover Steel → clean and reuse bars for small projects.</li>
+                    <li>Reuse Wood → repair, build furniture, or use as safe fuel.</li>
+                    <li>Recycle Glass & Plastic → reuse intact pieces; process broken ones into new products.</li>
+                    <li>Quality & Safety → test materials and ensure safe handling.</li>
+                    <li>Use & Sell → apply recycled products locally or sell them to workshops.</li>
+                </ul>
+                
+                <h4><strong>2.</strong> Innovation & Technology Support</h4>
+                <ul>
+                    <li>Mapping & Monitoring → using advanced imaging to locate rubble areas.</li>
+                    <li>Portable Recycling Units → solar-powered, neighborhood-scale crushers.</li>
+                    <li>Robotics & Drones → help with safe clearance in hard-to-reach areas.</li>
+                    <li>Eco-Materials → lightweight bricks and recycled aggregates.</li>
+                </ul>
+
+                <h4><strong>3.</strong> Learning from Space Recycling In space, nothing goes to waste.</h4>
+                <ul>
+                    <li>Waste becomes a resource → rubble = raw material.</li>
+                    <li>Closed-loop system → reuse everything locally.</li>
+                    <li>Modular workshops → small, flexible recycling units in communities.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Statistics</h2>
+             <p>The destruction of Gaza's infrastructure has left the territory in ruins. Roads, electricity networks, schools, and sewage systems have been severely damaged or completely destroyed, making everyday life almost impossible. With power outages lasting nearly all day and transportation networks cut off, people are unable to access basic services. The following statistics highlight the scale of infrastructure collapse before and after the war.</p>
+            <div class="media-section">
+            <section class="photos">
+              <div class="photo1"><img src="InfrustStat.jpeg" alt="Infrastructure statistics"></div>
+            </section>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Related Resources & References</h2>
+            <ul>
+                <li><a href="https://www.doctorswithoutborders.ca/rafah-city-gaza-destruction-of-homes-infrastructure-leave-people-unable-to-return-safely/" target="_blank" rel="noopener noreferrer">Doctors Without Borders – Rafah Report</a></li>
+                <li><a href="https://www.theguardian.com/world/2025/jan/18/a-visual-guide-to-the-destruction-of-gaza" target="_blank" rel="noopener noreferrer">The Guardian – Gaza Visual Guide</a></li>
+                <li><a href="https://code.earthengine.google.com/9b5867d78f3643fa703704f16bf6a5a8" target="_blank" rel="noopener noreferrer">Google Earth Engine – Gaza Data</a></li>
+            </ul>
+        </section>
+
+        <a href="Challenges.html" class="back-button">Back to All Challenges</a>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer">NASA Space Apps</a>
+                <a href="https://www.spaceappschallenge.org/2025/challenges/data-pathways-to-healthy-cities-and-human-settlements/" target="_blank" rel="noopener noreferrer">Challenge Guidelines</a>
+                <a href="https://www.spaceappschallenge.org/2025/find-a-team/college-drop-out/" target="_blank" rel="noopener noreferrer">Team Info</a>
+                <a href="Resources.html">Resources</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025 NASA Space Apps Challenge - Health Innovation Team
+            </div>
+        </div>
+    </footer>
+            <iframe 
+        src="chatbot.html" 
+        style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
+    </iframe>
+</body>
+</html>

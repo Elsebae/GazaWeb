@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Space Apps - Health Challenges</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0512;
+            color: #e8e8e8;
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, white 2px, transparent 2px),
+                radial-gradient(circle, white 1.5px, transparent 1.5px),
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+                radial-gradient(circle, white 2.5px, transparent 2.5px);
+            background-size: 150px 150px, 200px 200px, 250px 250px, 180px 180px, 220px 220px, 300px 300px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 150px 50px, 90px 180px;
+            animation: twinkle 3s ease-in-out infinite alternate, drift 120s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(50, 0, 80, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(25, 0, 50, 0.25) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(15, 5, 30, 0.9) 0%, rgba(5, 0, 15, 0.95) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background: rgba(20, 10, 40, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(75, 0, 130, 0.4);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #bb86fc;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e8e8e8;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(138, 43, 226, 0.3);
+            color: #bb86fc;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #bb86fc, #da70d6, #9370db, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(187, 134, 252, 0.4)); }
+            to { filter: drop-shadow(0 0 25px rgba(187, 134, 252, 0.8)); }
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #c0b0d0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .challenge-container {
+            margin-bottom: 4rem;
+            background: rgba(30, 15, 50, 0.4);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .challenge-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.3);
+            border-color: rgba(187, 134, 252, 0.5);
+        }
+
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .challenge-number {
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .challenge-title {
+            color: #bb86fc;
+            font-size: 1.8rem;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+        }
+
+        .challenge-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .challenge-text {
+            color: #c0b0d0;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .challenge-media {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .video-placeholder,
+        .photo-placeholder {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.1), rgba(255, 154, 154, 0.1));
+            border: 2px dashed #ff5252;
+            color: #ff5252;
+        }
+
+        .video-placeholder:hover {
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.15), rgba(255, 154, 154, 0.15));
+            border-color: #ff7979;
+        }
+
+        .photo-placeholder {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.1));
+            border: 2px dashed #4caf50;
+            color: #4caf50;
+        }
+
+        .photo-placeholder:hover {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(129, 199, 132, 0.15));
+            border-color: #66bb6a;
+        }
+
+        .media-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .media-text {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .media-subtext {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+
+        .read-more-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .read-more-link:hover {
+            background: linear-gradient(45deg, #9370db, #bb86fc);
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.5);
+        }
+
+        .read-more-link::after {
+            content: '→';
+            font-size: 1.2rem;
+        }
+            
+        .media-container {
+            display: flex;
+            align-items: flex-start;   
+            gap: 20px;           
+        }
+
+        .media-text {
+            flex: 1;               
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #c0b0d0;          
+            text-align: justify;
+        }
+
+        .media-photo1 {
+            flex: 0 0 250px;       
+        }
+
+        .media-photo1 img {
+            width: 520px;
+            height: 340px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }   
+
+        .media-photo1 img:hover {
+            border-color: rgba(187, 134, 252, 0.6);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+        }
+
+        .media-photo2 {
+            flex: 0 0 250px;       
+        }
+
+        .media-photo2 img {
+            width: 520px;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .media-photo2 img:hover {
+            border-color: rgba(187, 134, 252, 0.6);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+        }
+
+        .media-photo3 {
+            flex: 0 0 250px;       
+        }
+
+        .media-photo3 img {
+            width: 520px;
+            height: 360px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .media-photo3 img:hover {
+            border-color: rgba(187, 134, 252, 0.6);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+        }
+
+        .media-photo4 {
+            flex: 0 0 250px;     
+        }
+
+        .media-photo4 img {
+            width: 532px;
+            height: 385px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .media-photo4 img:hover {
+            border-color: rgba(187, 134, 252, 0.6);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+        }
+
+        footer {
+            background: rgba(20, 10, 40, 0.95);
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #da70d6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #bb86fc;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .footer-copyright {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .challenge-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .challenge-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .challenge-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                Pathways of Hope ✨
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Challenges.html" class="active">Challenge</a></li>
+                <li><a href="Resources.html">Resources</a></li>
+                <li><a href="Suggestion.html">Suggestion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+  
+        <section class="page-header">
+            <h1>Health Challenges</h1>
+            <p>Exploring the critical health challenges that our NASA Space Apps project aims to address</p>
+        </section>
+
+        <div class="challenge-container">
+            <div class="challenge-header">
+                <div class="challenge-number">1</div>
+                <h2 class="challenge-title">Emergency Health Response Plan</h2>
+            </div>
+            <div class="challenge-media">
+            <section class="media-container">
+                <div class="media-text">
+                <p>Every hour in Gaza, lives are lost not only to violence but to thirst, infection, and untreated wounds. The health system is collapsing hospitals destroyed, medicines scarce, and families forced to drink contaminated water. Children face malnutrition and trauma, and without urgent action, the crisis will spiral into a humanitarian disaster.</p>
+                <br>
+                <p>But hope remains. The following solutions are immediate lifelines to save lives, stop outbreaks, and restore dignity. From field hospitals to nutrition and mental health support, these steps can bring relief now before it's too late.</p>
+                <a href="challenge1.html" class="read-more-link">Read Full Details</a>
+                </div>
+                <div class="media-photo1">
+                <img src="HealthMain.jpeg" alt="Gaza Health Crisis">
+                </div>
+            </section>
+            </div>
+         </div>
+
+        <div class="challenge-container">
+            <div class="challenge-header">
+                <div class="challenge-number">2</div>
+                <h2 class="challenge-title">Gaza's Water Crisis and Scientific Solutions</h2>
+            </div>
+            <div class="challenge-content">
+                <div class="challenge-text">
+                    <p>In Gaza, water has become a matter of life and death. With 75% of wells destroyed and fuel shortages crippling the rest, clean water is almost out of reach. Families collect whatever they can—often contaminated—risking deadly diseases with every sip. If this crisis continues, the absence of water will claim as many lives as the violence itself.</p>
+                    <br>
+                    <p>Yet solutions are within reach. Emergency purification, sanitation efforts, and fuel support can bring safe water back to families. Long-term investment in sustainable systems can protect communities from future collapse. Water is survival—and restoring it is the first step toward preserving life and dignity in Gaza.</p>
+                    <a href="challenge2.html" class="read-more-link">Read Full Details</a>
+                </div>
+                <div class="challenge-media">
+                <div class="media-photo2">
+                     <img src="WaterMain.jpeg" alt="Gaza Health Crisis">
+                </div>                    
+                </div>
+            </div>
+        </div>
+
+        <div class="challenge-container">
+            <div class="challenge-header">
+                <div class="challenge-number">3</div>
+                <h2 class="challenge-title">Recycling Rubble: A Community Solution for Gaza</h2>
+            </div>
+            <div class="challenge-content">
+                <div class="challenge-text">
+                    <p>In Gaza, destruction has left behind more than shattered homes it has created mountains of rubble that choke neighborhoods and endanger public health. Families who lost everything are left waiting, surrounded by waste that could instead become the foundation for recovery.</p>
+                    <br>
+                    <p>Yet solutions are within reach. Recycling rubble into gravel, steel, wood, and other usable materials can provide affordable supplies for reconstruction while creating jobs and cleaner neighborhoods. With community action and innovative technology, destruction can be transformed into opportunity turning waste into the raw materials of resilience and hope.</p>
+                    <a href="challenge3.html" class="read-more-link">Read Full Details</a>
+                </div>
+                <div class="challenge-media">
+                <div class="media-photo3">
+                     <img src="MainInfru.jpeg" alt="Gaza Health Crisis">
+                </div> 
+                </div>
+            </div>
+        </div>
+
+        <div class="challenge-container">
+            <div class="challenge-header">
+                <div class="challenge-number">4</div>
+                <h2 class="challenge-title">Project Re-Green Gaza</h2>
+            </div>
+            <div class="challenge-content">
+                <div class="challenge-text">
+                    <p>Project Re-Green Gaza: A NASA-Informed Framework for Carbon Sequestration and Ecological Recovery <br>
+                       The military conflict in Gaza has generated a significant and immediate pulse of greenhouse gas emissions. Preliminary estimates suggest the first 60 days released approximately 281,000 metric tons of carbon dioxide (CO₂), equivalent to the annual energy use of 60,000 homes. This stems from over 45,000 bombs and munitions, widespread fires, and the decimation of urban and natural carbon sinks. This proposal outlines a scientifically-grounded recovery plan that uses NASA Earth observation data to target re-vegetation and soil restoration, transforming degraded areas into active carbon sequestration zones.</p>
+                    <a href="challenge4.html" class="read-more-link">Read Full Details</a>
+                </div>
+                <div class="challenge-media">
+                <div class="media-photo4">
+                     <img src="AirMain.jpeg" alt="Gaza Health Crisis">
+                </div> 
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer">NASA Space Apps</a>
+                <a href="https://www.spaceappschallenge.org/2025/challenges/data-pathways-to-healthy-cities-and-human-settlements/" target="_blank" rel="noopener noreferrer">Challenge Guidelines</a>
+                <a href="https://www.spaceappschallenge.org/2025/find-a-team/college-drop-out/" target="_blank" rel="noopener noreferrer">Team Info</a>
+                <a href="Resources.html">Resources</a>
+            </div>
+            <div class="footer-copyright">
+                © 2024 NASA Space Apps Challenge - Health Innovation Team
+            </div>
+        </div>
+    </footer>
+        <iframe 
+        src="chatbot.html" 
+        style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
+    </iframe>
+</body>
+</html>

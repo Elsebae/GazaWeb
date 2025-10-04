@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Space Apps - Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0512;
+            color: #e8e8e8;
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, white 2px, transparent 2px),
+                radial-gradient(circle, white 1.5px, transparent 1.5px),
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+                radial-gradient(circle, white 2.5px, transparent 2.5px);
+            background-size: 150px 150px, 200px 200px, 250px 250px, 180px 180px, 220px 220px, 300px 300px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 150px 50px, 90px 180px;
+            animation: twinkle 3s ease-in-out infinite alternate, drift 120s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(50, 0, 80, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(25, 0, 50, 0.25) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(15, 5, 30, 0.9) 0%, rgba(5, 0, 15, 0.95) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+        
+        nav {
+            background: rgba(20, 10, 40, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(75, 0, 130, 0.4);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #bb86fc;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e8e8e8;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(138, 43, 226, 0.3);
+            color: #bb86fc;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #bb86fc, #da70d6, #9370db, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(187, 134, 252, 0.4)); }
+            to { filter: drop-shadow(0 0 25px rgba(187, 134, 252, 0.8)); }
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #c0b0d0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .download-section {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(147, 112, 219, 0.2));
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .download-section h2 {
+            color: #bb86fc;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .download-item {
+            background: rgba(138, 43, 226, 0.15);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .download-item:hover {
+            background: rgba(138, 43, 226, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .download-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-item h4 {
+            color: #da70d6;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-item p {
+            color: #c0b0d0;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            background: rgba(20, 10, 40, 0.95);
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #da70d6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #bb86fc;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .footer-copyright {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .resource-category,
+            .download-section,
+            .video-resources,
+            .references-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                Pathways of Hope ✨
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Challenges.html">Challenge</a></li>
+                <li><a href="Resources.html" class="active">Resources</a></li>
+                <li><a href="Suggestion.html">Suggestion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        
+        <section class="page-header">
+            <h1>Resources</h1>
+            <p>Explore our comprehensive collection of research, documentation, and learning materials</p>
+        </section>
+        <section class="download-section">
+            <h2>📥 Downloadable Resources</h2>
+            <p style="color: #c0b0d0; margin-bottom: 1rem;">Access our project materials and documentation</p>
+            <div class="download-grid">
+                <div class="download-item">
+                    <a href="Propasal.pdf"  target="_blank" download style="text-decoration: none; color: inherit;">
+                    <div class="download-icon">📄</div>
+                    <h4>Project Proposal</h4>
+                    <p>PDF</p>
+                </a>
+                </div>
+                <div class="download-item" onclick="window.open('presentation_final.pptx')">
+                    <div class="download-icon">📊</div>
+                    <h4>Presentation</h4>
+                    <p>PPTX</p>
+                </div>
+
+                <div class="download-item" onclick="window.open('NASA.zip')">
+                    <div class="download-icon">💻</div>
+                    <h4>Code & Files</h4>
+                    <p>ZIP</p>
+                </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer">NASA Space Apps</a>
+                <a href="https://www.spaceappschallenge.org/2025/challenges/data-pathways-to-healthy-cities-and-human-settlements/" target="_blank" rel="noopener noreferrer">Challenge Guidelines</a>
+                <a href="https://www.spaceappschallenge.org/2025/find-a-team/college-drop-out/" target="_blank" rel="noopener noreferrer">Team Info</a>
+                <a href="Resources.html" target="_blank" rel="noopener noreferrer">Resources</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025 NASA Space Apps Challenge - Health Innovation Team
+            </div>
+        </div>
+    </footer>
+        <iframe 
+        src="chatbot.html" 
+        style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
+    </iframe>
+</body>
+</html>

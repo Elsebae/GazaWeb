@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Space Apps - Suggestion & Donation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0512;
+            color: #e8e8e8;
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, white 2px, transparent 2px),
+                radial-gradient(circle, white 1.5px, transparent 1.5px),
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+                radial-gradient(circle, white 2.5px, transparent 2.5px);
+            background-size: 150px 150px, 200px 200px, 250px 250px, 180px 180px, 220px 220px, 300px 300px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 150px 50px, 90px 180px;
+            animation: twinkle 3s ease-in-out infinite alternate, drift 120s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(50, 0, 80, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(25, 0, 50, 0.25) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(15, 5, 30, 0.9) 0%, rgba(5, 0, 15, 0.95) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+        
+        nav {
+            background: rgba(20, 10, 40, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(75, 0, 130, 0.4);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #bb86fc;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e8e8e8;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(138, 43, 226, 0.3);
+            color: #bb86fc;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #bb86fc, #da70d6, #9370db, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(187, 134, 252, 0.4)); }
+            to { filter: drop-shadow(0 0 25px rgba(187, 134, 252, 0.8)); }
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #c0b0d0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-section {
+            background: rgba(30, 15, 50, 0.4);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
+            border-color: rgba(187, 134, 252, 0.4);
+        }
+
+        .form-section h2 {
+            color: #bb86fc;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            color: #da70d6;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            color: #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #bb86fc;
+            background: rgba(138, 43, 226, 0.2);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background: #16213e;
+            color: #e8e8e8;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 2rem;
+        }
+
+        .star {
+            cursor: pointer;
+            color: rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffd700;
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 5px #ffd700);
+        }
+
+        .rating-label {
+            color: #bb86fc;
+            font-size: 1rem;
+            margin-left: 1rem;
+        }
+
+        .donation-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .amount-btn {
+            padding: 1rem;
+            background: rgba(138, 43, 226, 0.15);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 8px;
+            color: #e8e8e8;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-btn:hover {
+            background: rgba(138, 43, 226, 0.25);
+            border-color: #bb86fc;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .amount-btn.selected {
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+            border-color: #bb86fc;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .donation-info {
+            background: rgba(138, 43, 226, 0.15);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #bb86fc;
+        }
+
+        .donation-info h3 {
+            color: #bb86fc;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .donation-info p {
+            color: #c0b0d0;
+            line-height: 1.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-info ul {
+            color: #c0b0d0;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .donation-info li {
+            margin-bottom: 0.3rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #9370db, #bb86fc);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn.donation-btn {
+            background: linear-gradient(45deg, #8a2be2, #9370db);
+        }
+
+        .submit-btn.donation-btn:hover {
+            background: linear-gradient(45deg, #9370db, #bb86fc);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.5);
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(187, 134, 252, 0.2));
+            border: 1px solid rgba(187, 134, 252, 0.5);
+            color: #bb86fc;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1rem;
+            animation: slideDown 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        footer {
+            background: rgba(20, 10, 40, 0.95);
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #da70d6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #bb86fc;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+
+        .footer-copyright {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .donation-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                Pathways of Hope ✨
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Challenges.html">Challenge</a></li>
+                <li><a href="Resources.html">Resources</a></li>
+                <li><a href="Suggestion.html" class="active">Suggestion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-header">
+            <h1>Support Gaza</h1>
+            <p>Share your solutions and contribute to help rebuild Gaza's communities</p>
+        </section>
+
+        <div id="suggestionSuccess" class="success-message">
+            ✓ Thank you! Your solution has been submitted successfully.
+        </div>
+
+        <div id="donationSuccess" class="success-message">
+            ✓ Thank you for your donation to support Gaza! Your contribution will make a real difference.
+        </div>
+
+        <div class="content-container">
+            <section class="form-section">
+                <h2>💡 Suggest Solutions for Gaza</h2>
+                <form id="suggestionForm">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Solution Category *</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="Healthcare">Healthcare Services</option>
+                            <option value="Water & Sanitation">Water & Sanitation</option>
+                            <option value="Infrastructure">Infrastructure Rebuilding</option>
+                            <option value="Re-gree">Agricultural</option>
+                            <option value="Other">Other Solutions</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suggestion">Your Solution *</label>
+                        <textarea id="suggestion" name="suggestion" required placeholder="Describe your proposed solution to help Gaza's communities..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Solution</button>
+                </form>
+            </section>
+
+            <section class="form-section">
+                <h2>❤️ Donate to Support Gaza</h2>
+                
+                <div class="donation-info">
+                    <h3>Help Rebuild Gaza</h3>
+                    <p>Your donation directly supports:</p>
+                    <ul>
+                        <li>Emergency medical supplies and healthcare</li>
+                        <li>Rebuilding homes and infrastructure</li>
+                        <li>Provide purification, sanitation, and fuel support to restore clean water in Gaza.</li>
+                        <li>Help re-green Gaza with trees and clean energy to reduce CO₂ and restore life.</li>
+                    </ul>
+                </div>
+
+                <form id="donationForm">
+                    <div class="form-group">
+                        <label for="donorName">Your Name *</label>
+                        <input type="text" id="donorName" name="donorName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="donorEmail">Email Address *</label>
+                        <input type="email" id="donorEmail" name="donorEmail" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Amount *</label>
+                        <div class="donation-amounts">
+                            <button type="button" class="amount-btn" data-amount="10">$10</button>
+                            <button type="button" class="amount-btn" data-amount="25">$25</button>
+                            <button type="button" class="amount-btn" data-amount="50">$50</button>
+                            <button type="button" class="amount-btn" data-amount="100">$100</button>
+                            <button type="button" class="amount-btn" data-amount="250">$250</button>
+                            <button type="button" class="amount-btn" data-amount="custom">Custom</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="customAmountGroup" style="display: none;">
+                        <label for="customAmount">Custom Amount ($) *</label>
+                        <input type="number" id="customAmount" name="customAmount" min="1" placeholder="Enter custom amount">
+                    </div>
+
+                    <input type="hidden" id="donationAmount" name="donationAmount" required>
+
+                    <div class="form-group">
+                        <label for="message">Message (Optional)</label>
+                        <textarea id="message" name="message" placeholder="Leave a message of support..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn donation-btn">Donate Now</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer">NASA Space Apps</a>
+                <a href="https://www.spaceappschallenge.org/2025/challenges/data-pathways-to-healthy-cities-and-human-settlements/" target="_blank" rel="noopener noreferrer">Challenge Guidelines</a>
+                <a href="https://www.spaceappschallenge.org/2025/find-a-team/college-drop-out/" target="_blank" rel="noopener noreferrer">Team Info</a>
+                <a href="Resources.html">Resources</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025 NASA Space Apps Challenge - Health Innovation Team
+            </div>
+        </div>
+    </footer>
+        <iframe 
+        src="chatbot.html" 
+        style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
+    </iframe>
+
+    <script>
+        document.getElementById('suggestionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const suggestionSuccess = document.getElementById('suggestionSuccess');
+            suggestionSuccess.classList.add('show');
+            setTimeout(() => {
+                suggestionSuccess.classList.remove('show');
+            }, 5000);
+
+            this.reset();
+        });
+
+        let selectedAmount = 0;
+        const amountBtns = document.querySelectorAll('.amount-btn');
+        const customAmountGroup = document.getElementById('customAmountGroup');
+        const customAmountInput = document.getElementById('customAmount');
+        const donationAmountInput = document.getElementById('donationAmount');
+
+        amountBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                amountBtns.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                const amount = this.getAttribute('data-amount');
+                
+                if (amount === 'custom') {
+                    customAmountGroup.style.display = 'block';
+                    customAmountInput.required = true;
+                    donationAmountInput.value = '';
+                } else {
+                    customAmountGroup.style.display = 'none';
+                    customAmountInput.required = false;
+                    customAmountInput.value = '';
+                    selectedAmount = parseInt(amount);
+                    donationAmountInput.value = selectedAmount;
+                }
+            });
+        });
+
+        customAmountInput.addEventListener('input', function() {
+            selectedAmount = parseInt(this.value) || 0;
+            donationAmountInput.value = selectedAmount;
+        });
+
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!donationAmountInput.value || donationAmountInput.value <= 0) {
+                alert('Please select or enter a donation amount!');
+                return;
+            }
+
+            const donationSuccess = document.getElementById('donationSuccess');
+            donationSuccess.classList.add('show');
+            setTimeout(() => {
+                donationSuccess.classList.remove('show');
+            }, 5000);
+
+            this.reset();
+            amountBtns.forEach(b => b.classList.remove('selected'));
+            customAmountGroup.style.display = 'none';
+            customAmountInput.required = false;
+            selectedAmount = 0;
+            donationAmountInput.value = '';
+        });
+    </script>
+</body>
+</html>
