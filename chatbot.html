@@ -12,27 +12,15 @@
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        /* Responsive Chatbot Window */
-        @media (max-width: 768px) {
-            .chatbot-window {
-                width: 95vw !important;
-                height: 80vh !important;
-                bottom: 10px !important;
-                right: 2.5vw !important;
-                left: 2.5vw !important;
-                margin: 0 auto !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .chatbot-window {
-                width: 98vw !important;
-                height: 85vh !important;
-                bottom: 5px !important;
-                right: 1vw !important;
-                left: 1vw !important;
-            }
-        }
+       @media (max-width: 768px) {
+    body > div > div[style*="width: 420px"][style*="height: 650px"] {
+        width: 95vw !important;
+        height: 85vh !important;
+        left: 2.5vw !important;
+        right: 2.5vw !important;
+        bottom: 10px !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -581,8 +569,8 @@ return (
             position: 'fixed',
             bottom: '24px',
             right: '24px',
-            width: window.innerWidth <= 768 ? '95vw' : '420px',
-            height: window.innerWidth <= 768 ? '85vh' : '650px',
+            width: '420px',
+            height: '650px',
             background: 'rgba(30, 15, 50, 0.95)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(138, 43, 226, 0.3)',
@@ -590,12 +578,7 @@ return (
             boxShadow: '0 15px 40px rgba(138, 43, 226, 0.4)',
             display: 'flex',
             flexDirection: 'column',
-            zIndex: 9999,
-            ...(window.innerWidth <= 768 && {
-                left: '50%',
-                right: 'auto',
-                transform: 'translateX(-50%)'
-            })
+            zIndex: 9999
         }}
     >
                 
@@ -776,6 +759,7 @@ return (
     
 </body>
 </html>
+
 
 
 
