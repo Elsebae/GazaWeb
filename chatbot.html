@@ -582,8 +582,8 @@ Or ask for an "overview" to see all challenges at once!`;
                         position: 'fixed',
                         bottom: '24px',
                         right: '24px',
-                        width: '420px',
-                        height: '650px',
+                        width: window.innerWidth <= 768 ? '95vw' : '420px',
+                        height: window.innerWidth <= 768 ? '80vh' : '650px', 
                         background: 'rgba(30, 15, 50, 0.95)',
                         backdropFilter: 'blur(10px)',
                         border: '1px solid rgba(138, 43, 226, 0.3)',
@@ -771,6 +771,7 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
 
 
 
