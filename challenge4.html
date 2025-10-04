@@ -429,20 +429,7 @@
             padding-top: 1rem;
             border-top: 1px solid rgba(138, 43, 226, 0.3);
         }
-#chatbot-iframe {
-    pointer-events: none; /* iframe doesn't block clicks */
-}
 
-/* On mobile, keep same behavior */
-@media (max-width: 768px) {
-    #chatbot-iframe {
-        width: 100vw;
-        height: 100vh;
-        bottom: 0;
-        right: 0;
-        left: 0;
-    }
-}
 
         @media (max-width: 768px) {
             .nav-container {
@@ -613,13 +600,10 @@
             </div>
         </div>
     </footer>
-<iframe 
-    src="chatbot.html" 
-    id="chatbot-iframe"
-    style="position:fixed;bottom:0;right:0;width:0;height:0;border:none;z-index:9999;">
-</iframe>
+
 </body>
 
 </html>
+
 
 
