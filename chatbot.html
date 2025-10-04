@@ -576,14 +576,16 @@ Or ask for an "overview" to see all challenges at once!`;
 }
 
             return (
+                return (
                 <div 
-                  className="chatbot-window"
+                    className="chatbot-window"
                     style={{
                         position: 'fixed',
-                        bottom: '24px',
-                        right: '24px',
+                        bottom: window.innerWidth <= 768 ? '10px' : '24px',
+                        right: window.innerWidth <= 768 ? '2.5vw' : '24px',
+                        left: window.innerWidth <= 768 ? '2.5vw' : 'auto',
                         width: window.innerWidth <= 768 ? '95vw' : '420px',
-                        height: window.innerWidth <= 768 ? '80vh' : '650px', 
+                        height: window.innerWidth <= 768 ? '80vh' : '650px',
                         background: 'rgba(30, 15, 50, 0.95)',
                         backdropFilter: 'blur(10px)',
                         border: '1px solid rgba(138, 43, 226, 0.3)',
@@ -771,6 +773,7 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
 
 
 
