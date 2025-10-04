@@ -12,15 +12,15 @@
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-       @media (max-width: 768px) {
-    body > div > div[style*="width: 420px"][style*="height: 650px"] {
-        width: 95vw !important;
-        height: 85vh !important;
-        left: 2.5vw !important;
-        right: 2.5vw !important;
-        bottom: 10px !important;
-    }
-}
+        @media (max-width: 768px) {
+            .chatbot-open {
+                width: 95vw !important;
+                height: 85vh !important;
+                left: 2.5vw !important;
+                right: 2.5vw !important;
+                bottom: 10px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -565,6 +565,7 @@ Or ask for an "overview" to see all challenges at once!`;
             
 return (
     <div 
+        className="chatbot-open"
         style={{
             position: 'fixed',
             bottom: '24px',
@@ -759,6 +760,7 @@ return (
     
 </body>
 </html>
+
 
 
 
