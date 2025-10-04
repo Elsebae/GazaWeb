@@ -12,6 +12,45 @@
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        /* Responsive Chatbot Styles */
+        @media (max-width: 768px) {
+            /* Chatbot button */
+            button[style*="fixed"][style*="bottom: 24px"] {
+                width: 60px !important;
+                height: 60px !important;
+                bottom: 16px !important;
+                right: 16px !important;
+                padding: 14px !important;
+            }
+            
+            /* Chatbot container */
+            div[style*="position: fixed"][style*="width: 420px"] {
+                width: calc(100vw - 32px) !important;
+                height: calc(100vh - 100px) !important;
+                bottom: 16px !important;
+                right: 16px !important;
+                left: 16px !important;
+                max-width: 420px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Extra small screens */
+            div[style*="position: fixed"][style*="width: 420px"] {
+                width: calc(100vw - 16px) !important;
+                height: calc(100vh - 80px) !important;
+                bottom: 8px !important;
+                right: 8px !important;
+                left: 8px !important;
+            }
+            
+            button[style*="fixed"][style*="bottom: 24px"] {
+                width: 56px !important;
+                height: 56px !important;
+                bottom: 12px !important;
+                right: 12px !important;
+            }
+        }        
     </style>
 </head>
 <body>
@@ -749,3 +788,4 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
