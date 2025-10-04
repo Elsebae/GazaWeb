@@ -450,30 +450,14 @@
         </div>
     </footer>
 <div id="chatbot-container" style="position:fixed;bottom:0;right:0;width:100%;height:100%;pointer-events:none;z-index:9998;">
-    <iframe 
-        src="chatbot.html" 
-        id="chatbot-iframe"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none;">
-    </iframe>
-</div>
-
-<script>
-// Make chatbot elements clickable while keeping iframe transparent to clicks
-document.addEventListener('DOMContentLoaded', function() {
-    const iframe = document.getElementById('chatbot-iframe');
-    
-    // Listen for messages from the chatbot iframe
-    window.addEventListener('message', function(event) {
-        if (event.data === 'chatbot-opened') {
-            document.getElementById('chatbot-container').style.pointerEvents = 'auto';
-        } else if (event.data === 'chatbot-closed') {
-            document.getElementById('chatbot-container').style.pointerEvents = 'none';
-        }
-    });
-});
+<iframe 
+    src="chatbot.html" 
+    style="position:fixed;bottom:0;right:0;width:450px;height:700px;border:none;z-index:9999;">
+</iframe>
 </script>
 </body>
 </html>
+
 
 
 
