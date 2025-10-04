@@ -12,24 +12,21 @@
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        /* Responsive Chatbot Window Only - NOT the button */
+        /* Responsive Chatbot Window */
         @media (max-width: 768px) {
-            /* Target ONLY the chatbot window (it has height: 650px) */
-            div[style*="position: fixed"][style*="height: 400px"][style*="width: 100px"] {
+            .chatbot-window {
                 width: 95vw !important;
-                max-width: 95vw !important;
                 height: 80vh !important;
                 bottom: 10px !important;
                 right: 2.5vw !important;
                 left: 2.5vw !important;
+                margin: 0 auto !important;
             }
         }
         
         @media (max-width: 480px) {
-            /* Small phones */
-            div[style*="position: fixed"][style*="height: 400px"][style*="width: 100px"] {
+            .chatbot-window {
                 width: 98vw !important;
-                max-width: 98vw !important;
                 height: 85vh !important;
                 bottom: 5px !important;
                 right: 1vw !important;
@@ -368,33 +365,33 @@ Temporary shelters, construction materials, sanitation equipment, concrete crush
                 
                 // Greetings
                 // Bye/goodbye
-if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
-    return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
-}
-
-// That's enough / I'm done
-if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
-    return "No problem! I understand. If you need anything else later, I'll be here. Take care! 😊";
-}
-
-// Good/satisfied responses
-if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood)$/)) {
-    return "Glad I could help! 😊 Anything else you'd like to know, or are we good for now?";
-}
-// Laughs and reactions
-if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny|😂|🤣)$/)) {
-    return "Haha, glad you're in good spirits! 😄 So, want to keep chatting or learn about something specific?";
-}
-
-// Hmm/thinking
-if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see)$/)) {
-    return "Thinking it over? Take your time! If you have questions about anything, just ask. I'm here to help! 🤔";
-}
-
-// Wow/surprise
-if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
-    return "Right?! There's a lot to take in. Want me to explain more about any topic, or just chat for a bit? 😊";
-}
+                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
+                    return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
+                }
+                
+                // That's enough / I'm done
+                if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
+                    return "No problem! I understand. If you need anything else later, I'll be here. Take care! 😊";
+                }
+                
+                // Good/satisfied responses
+                if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood)$/)) {
+                    return "Glad I could help! 😊 Anything else you'd like to know, or are we good for now?";
+                }
+                // Laughs and reactions
+                if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny|😂|🤣)$/)) {
+                    return "Haha, glad you're in good spirits! 😄 So, want to keep chatting or learn about something specific?";
+                }
+                
+                // Hmm/thinking
+                if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see)$/)) {
+                    return "Thinking it over? Take your time! If you have questions about anything, just ask. I'm here to help! 🤔";
+                }
+                
+                // Wow/surprise
+                if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
+                    return "Right?! There's a lot to take in. Want me to explain more about any topic, or just chat for a bit? 😊";
+                }
                 if (lower.match(/^(hi|hello|hey|greetings|sup|yo)$/)) {
                     return "Hey there! 👋 How are you doing today? I'm here to chat or help you learn about Gaza's humanitarian challenges. What's on your mind?";
                 }
@@ -580,6 +577,7 @@ Or ask for an "overview" to see all challenges at once!`;
 
             return (
                 <div 
+                  className="chatbot-window"
                     style={{
                         position: 'fixed',
                         bottom: '24px',
@@ -773,6 +771,7 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
 
 
 
