@@ -6,15 +6,141 @@
     <title>Gaza 101 Chatbot</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: transparent;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        /* Chatbot Responsive Design */
-     /* Chatbot Responsive Design */
+     /* ---------- Global Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ---------- Chatbot Container ---------- */
+.chatbot-container {
+    position: fixed;
+    width: 360px;       /* default desktop width */
+    height: 500px;      /* default desktop height */
+    bottom: 30px;
+    right: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+/* ---------- Chatbot Header ---------- */
+.chatbot-header {
+    padding: 16px;
+    background: #0078D7;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.chatbot-header p {
+    margin: 0;
+    font-size: 12px;
+}
+
+/* ---------- Messages ---------- */
+.chatbot-messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    scroll-behavior: smooth;
+}
+
+/* ---------- Message Bubbles ---------- */
+.message-bubble {
+    max-width: 80%;
+    padding: 12px 16px;
+    background: #f1f1f1;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* ---------- Input Container ---------- */
+.chatbot-input-container {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    border-top: 1px solid #ddd;
+}
+
+.chatbot-input {
+    flex: 1;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    -webkit-appearance: none;
+}
+
+/* ---------- Buttons ---------- */
+.send-button,
+.floating-button,
+.message-icon {
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+/* ---------- Floating Button ---------- */
+.floating-button {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 25px;
+    right: 25px;
+    border-radius: 50%;
+    background: #0078D7;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.message-icon {
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+}
+
+.message-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ---------- Prevent Text Selection ---------- */
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* ---------- Responsive: Tablets & Mobile ---------- */
 @media (max-width: 768px) {
     .chatbot-container {
         width: 100% !important;
@@ -23,40 +149,40 @@
         right: 0 !important;
         border-radius: 0 !important;
     }
-    
+
     .chatbot-messages {
         padding: 12px !important;
         gap: 12px !important;
     }
-    
+
     .message-bubble {
         max-width: 90% !important;
         padding: 10px 12px !important;
         font-size: 14px !important;
         line-height: 1.4 !important;
     }
-    
+
     .chatbot-input-container {
         padding: 12px !important;
     }
-    
+
     .chatbot-input {
         font-size: 16px !important;
         padding: 14px 16px !important;
     }
-    
+
     .chatbot-header {
         padding: 14px 16px !important;
     }
-    
+
     .chatbot-header h3 {
         font-size: 16px !important;
     }
-    
+
     .chatbot-header p {
         font-size: 11px !important;
     }
-    
+
     .floating-button {
         width: 60px !important;
         height: 60px !important;
@@ -64,18 +190,18 @@
         right: 20px !important;
         padding: 16px !important;
     }
-    
+
     .message-icon {
         width: 28px !important;
         height: 28px !important;
         padding: 6px !important;
     }
-    
+
     .message-icon svg {
         width: 16px !important;
         height: 16px !important;
     }
-    
+
     .send-button {
         padding: 14px !important;
         min-width: 50px !important;
@@ -88,26 +214,26 @@
         padding: 8px 10px !important;
         font-size: 13px !important;
     }
-    
+
     .chatbot-header {
         padding: 12px !important;
     }
-    
+
     .chatbot-header h3 {
         font-size: 15px !important;
     }
-    
+
     .floating-button {
         width: 56px !important;
         height: 56px !important;
         bottom: 16px !important;
         right: 16px !important;
     }
-    
+
     .chatbot-input {
         padding: 12px 14px !important;
     }
-    
+
     .send-button {
         padding: 12px !important;
         min-width: 46px !important;
@@ -119,51 +245,22 @@
         padding: 10px !important;
         gap: 10px !important;
     }
-    
+
     .message-bubble {
         max-width: 98% !important;
         font-size: 12px !important;
     }
-    
+
     .chatbot-header h3 {
         font-size: 14px !important;
     }
-    
+
     .floating-button {
         width: 52px !important;
         height: 52px !important;
     }
 }
 
-/* Prevent text selection on mobile */
-.no-select {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* Improve scrolling on mobile */
-.chatbot-messages {
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-}
-
-/* Fix for iOS input styling */
-.chatbot-input {
-    -webkit-appearance: none;
-    border-radius: 12px;
-}
-
-/* Ensure proper tap targets */
-.floating-button,
-.send-button,
-.message-icon {
-    cursor: pointer;
-    touch-action: manipulation;
-}
     </style>
 </head>
 <body>
@@ -879,4 +976,5 @@ Or ask for an "overview" to see all challenges at once!`;
     
 </body>
 </html>
+
 
