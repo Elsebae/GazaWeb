@@ -531,6 +531,7 @@ if (!isOpen) {
     return (
         <button
             onClick={() => setIsOpen(true)}
+            window.parent.postMessage('chatbot-opened', '*');
             style={{
                 position: 'fixed',
                 bottom: '24px',
@@ -568,6 +569,12 @@ if (!isOpen) {
 return (
     <div 
         className="chatbot-open"
+        // When closing chatbot
+<button
+    onClick={() => {
+        setIsOpen(false);
+        window.parent.postMessage('chatbot-closed', '*');
+    }}
         style={{
             position: 'fixed',
             bottom: '24px',
@@ -763,6 +770,7 @@ return (
     
 </body>
 </html>
+
 
 
 
