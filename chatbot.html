@@ -12,14 +12,77 @@
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         /* Chatbot Responsive Design */
         @media (max-width: 768px) {
-        #gaza-chatbot-frame {
-        width: 100% ;
-        height: 100% ;
-        bottom: 0 ;
-        right: 0 ;
+            #gaza-chatbot-frame {
+                width: 100% !important;
+                height: 100% !important;
+                bottom: 0 !important;
+                right: 0 !important;
+                border-radius: 0 !important;
             }
+            
+            .chatbot-container {
+                width: 100% !important;
+                height: 100% !important;
+                bottom: 0 !important;
+                right: 0 !important;
+                border-radius: 0 !important;
+            }
+            
+            .chatbot-messages {
+                padding: 12px !important;
+            }
+            
+            .message-bubble {
+                max-width: 90% !important;
+                padding: 10px !important;
+                font-size: 14px !important;
+            }
+            
+            .chatbot-input-container {
+                padding: 12px !important;
+            }
+            
+            .chatbot-input {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+            }
+            
+            .chatbot-header {
+                padding: 12px !important;
+            }
+            
+            .floating-button {
+                width: 60px !important;
+                height: 60px !important;
+                bottom: 16px !important;
+                right: 16px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .message-bubble {
+                max-width: 95% !important;
+            }
+            
+            .chatbot-header h3 {
+                font-size: 16px !important;
+            }
+            
+            .chatbot-header p {
+                font-size: 11px !important;
+            }
+        }
+        
+        /* Prevent text selection on mobile */
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
     </style>
 </head>
@@ -352,34 +415,6 @@ Temporary shelters, construction materials, sanitation equipment, concrete crush
                 const lower = input.toLowerCase();
                 
                 // Greetings
-                // Bye/goodbye
-if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
-    return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
-}
-
-// That's enough / I'm done
-if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
-    return "No problem! I understand. If you need anything else later, I'll be here. Take care! 😊";
-}
-
-// Good/satisfied responses
-if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood)$/)) {
-    return "Glad I could help! 😊 Anything else you'd like to know, or are we good for now?";
-}
-// Laughs and reactions
-if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny|😂|🤣)$/)) {
-    return "Haha, glad you're in good spirits! 😄 So, want to keep chatting or learn about something specific?";
-}
-
-// Hmm/thinking
-if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see)$/)) {
-    return "Thinking it over? Take your time! If you have questions about anything, just ask. I'm here to help! 🤔";
-}
-
-// Wow/surprise
-if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
-    return "Right?! There's a lot to take in. Want me to explain more about any topic, or just chat for a bit? 😊";
-}
                 if (lower.match(/^(hi|hello|hey|greetings|sup|yo)$/)) {
                     return "Hey there! 👋 How are you doing today? I'm here to chat or help you learn about Gaza's humanitarian challenges. What's on your mind?";
                 }
@@ -425,7 +460,7 @@ if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
                 }
                 
                 // Bye/goodbye
-                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg)$/)) {
+                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
                     return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
                 }
                 
@@ -453,16 +488,16 @@ if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
                 if (lower.match(/all|everything|overview|summary|tell me about gaza/)) {
                     return `🌍 **GAZA OVERVIEW**
 
-            Gaza faces 6 major humanitarian challenges:
+Gaza faces 6 major humanitarian challenges:
 
-            1. 💧 **Water** - 96% unfit for consumption
-            2. 🌾 **Food** - 93% face food insecurity
-            3. 🏥 **Health** - 72% hospitals non-functional
-            4. ⚡ **Energy** - 2-4 hours electricity daily
-            5. 🏗️ **Infrastructure** - 60% buildings damaged
-            6. 🌍 **Environment** - 450K tons CO2 emissions
+1. 💧 **Water** - 96% unfit for consumption
+2. 🌾 **Food** - 93% face food insecurity
+3. 🏥 **Health** - 72% hospitals non-functional
+4. ⚡ **Energy** - 2-4 hours electricity daily
+5. 🏗️ **Infrastructure** - 60% buildings damaged
+6. 🌍 **Environment** - 450K tons CO2 emissions
 
-            Want to know more about any of these?`;
+Want to know more about any of these?`;
                 }
                 
                 return null;
@@ -526,45 +561,47 @@ Or ask for an "overview" to see all challenges at once!`;
                 }
             };
 
- if (!isOpen) {
-    return (
-        <button
-            onClick={() => setIsOpen(true)}
-            style={{
-                position: 'fixed',
-                bottom: '24px',
-                right: '24px',
-                background: 'linear-gradient(135deg, rgb(138, 43, 226), rgb(187, 134, 252))',
-                color: 'white',
-                padding: '18px',
-                borderRadius: '50%',
-                border: '3px solid rgba(255, 255, 255, 0.3)',
-                cursor: 'pointer',
-                boxShadow: '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)',
-                zIndex: 9999,
-                transition: 'all 0.3s ease',
-                width: '70px',
-                height: '70px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}
-            onMouseEnter={(e) => {
-                e.target.style.transform = 'scale(1.15)';
-                e.target.style.boxShadow = '0 0 40px rgba(187, 134, 252, 1), 0 12px 35px rgba(0,0,0,0.5)';
-            }}
-            onMouseLeave={(e) => {
-                e.target.style.transform = 'scale(1)';
-                e.target.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)';
-            }}
-        >
-            <MessageCircle size={32} />
-        </button>
-    );
-}
+            if (!isOpen) {
+                return (
+                    <button
+                        onClick={() => setIsOpen(true)}
+                        className="floating-button no-select"
+                        style={{
+                            position: 'fixed',
+                            bottom: '24px',
+                            right: '24px',
+                            background: 'linear-gradient(135deg, rgb(138, 43, 226), rgb(187, 134, 252))',
+                            color: 'white',
+                            padding: '18px',
+                            borderRadius: '50%',
+                            border: '3px solid rgba(255, 255, 255, 0.3)',
+                            cursor: 'pointer',
+                            boxShadow: '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)',
+                            zIndex: 9999,
+                            transition: 'all 0.3s ease',
+                            width: '70px',
+                            height: '70px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.15)';
+                            e.target.style.boxShadow = '0 0 40px rgba(187, 134, 252, 1), 0 12px 35px rgba(0,0,0,0.5)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                            e.target.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)';
+                        }}
+                    >
+                        <MessageCircle size={32} />
+                    </button>
+                );
+            }
 
             return (
                 <div 
+                    className="chatbot-container no-select"
                     style={{
                         position: 'fixed',
                         bottom: '24px',
@@ -583,6 +620,7 @@ Or ask for an "overview" to see all challenges at once!`;
                 >
                     {/* Header */}
                     <div 
+                        className="chatbot-header"
                         style={{
                             background: 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))',
                             padding: '16px',
@@ -599,7 +637,7 @@ Or ask for an "overview" to see all challenges at once!`;
                                 <Bot size={24} className="text-white" />
                             </div>
                             <div>
-                                <h3 style={{ color: 'white', fontWeight: 'bold', margin: 0 }}>GAZA 101 Assistant</h3>
+                                <h3 style={{ color: 'white', fontWeight: 'bold', margin: 0, fontSize: '18px' }}>GAZA 101 Assistant</h3>
                                 <p style={{ color: 'rgb(233, 213, 255)', fontSize: '12px', margin: 0 }}>Crisis Information & Solutions</p>
                             </div>
                         </div>
@@ -623,6 +661,7 @@ Or ask for an "overview" to see all challenges at once!`;
 
                     {/* Messages */}
                     <div 
+                        className="chatbot-messages"
                         style={{
                             flex: 1,
                             overflowY: 'auto',
@@ -657,6 +696,7 @@ Or ask for an "overview" to see all challenges at once!`;
                                     </div>
                                 )}
                                 <div
+                                    className="message-bubble"
                                     style={{
                                         maxWidth: '80%',
                                         padding: '12px',
@@ -694,7 +734,7 @@ Or ask for an "overview" to see all challenges at once!`;
                     </div>
 
                     {/* Input */}
-                    <div style={{ padding: '16px', borderTop: '1px solid rgba(138, 43, 226, 0.3)' }}>
+                    <div className="chatbot-input-container" style={{ padding: '16px', borderTop: '1px solid rgba(138, 43, 226, 0.3)' }}>
                         <div style={{ display: 'flex', gap: '8px' }}>
                             <input
                                 type="text"
@@ -702,6 +742,7 @@ Or ask for an "overview" to see all challenges at once!`;
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={handleKeyPress}
                                 placeholder="Ask about water, food, health..."
+                                className="chatbot-input"
                                 style={{
                                     flex: 1,
                                     padding: '12px 16px',
@@ -757,6 +798,4 @@ Or ask for an "overview" to see all challenges at once!`;
     </script>
     
 </body>
-
 </html>
-
