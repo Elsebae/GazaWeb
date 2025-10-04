@@ -526,7 +526,8 @@ Or ask for an "overview" to see all challenges at once!`;
                 }
             };
 
- if (!isOpen) {
+ // For the chatbot button - add pointerEvents: 'auto'
+if (!isOpen) {
     return (
         <button
             onClick={() => setIsOpen(true)}
@@ -547,7 +548,8 @@ Or ask for an "overview" to see all challenges at once!`;
                 height: '70px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                pointerEvents: 'auto' // ADD THIS LINE
             }}
             onMouseEnter={(e) => {
                 e.target.style.transform = 'scale(1.15)';
@@ -579,7 +581,8 @@ return (
             boxShadow: '0 15px 40px rgba(138, 43, 226, 0.4)',
             display: 'flex',
             flexDirection: 'column',
-            zIndex: 9999
+            zIndex: 9999,
+            pointerEvents: 'auto' // ADD THIS LINE
         }}
     >
                 
@@ -760,6 +763,7 @@ return (
     
 </body>
 </html>
+
 
 
 
