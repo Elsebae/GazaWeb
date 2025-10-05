@@ -10,12 +10,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-        body {
-            margin: 0;
-            padding: 0;
-            background: transparent;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         
         /* Tablet styles */
         @media (max-width: 768px) {
@@ -56,11 +50,10 @@
                 font-size: 14px !important;
             }
             .input-field {
-                font-size: 16px !important; /* Prevents zoom on iOS */
+                font-size: 16px !important;
             }
         }
         
-        /* Small mobile */
         @media (max-width: 360px) {
             .chatbot-button {
                 width: 50px !important;
@@ -121,7 +114,7 @@
             const [messages, setMessages] = useState([
                 {
                     type: 'bot',
-                    text: "🌍 GAZA 101 - Crisis Assistant\n\nHi! I'm your AI assistant combining intelligence with accurate technical knowledge.\n\nI can analyze:\n💧 Water | 🌾 Food | 🏥 Health | ⚡ Energy | 🏗️ Infrastructure | 🌍 CO2\n\nOr we can have natural conversations! What would you like to know?"
+                    text: "🌍 GAZA 101 - Your Friendly AI Assistant\n\nHey there! I'm here to help you with:\n\n💬 General conversations & questions\n🎓 Gaza humanitarian crisis information\n💡 Practical advice & explanations\n\nI can discuss anything from daily life topics to detailed crisis analysis. What's on your mind?"
                 }
             ]);
             const [input, setInput] = useState('');
@@ -392,86 +385,90 @@ Temporary shelters, construction materials, sanitation equipment, concrete crush
                 return null;
             };
 
-            const getConversationalResponse = (input) => {
+            const getGeneralResponse = (input) => {
                 const lower = input.toLowerCase();
                 
-                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later)$/)) {
-                    return "Take care! 👋 Feel free to come back anytime you want to chat or learn something new. Have a great day!";
+                if (lower.match(/^(hi|hello|hey|greetings|sup|yo|good morning|good afternoon|good evening)$/)) {
+                    return "Hey there! 👋 How are you doing today? I'm here to chat about anything - from everyday topics to important issues like Gaza's humanitarian situation. What's on your mind?";
+                }
+                
+                if (lower.match(/how are you|how are u|how r u|hows it going|whats up|wassup/)) {
+                    return "I'm doing great, thanks for asking! 😊 I'm here and ready to help with whatever you need. How about you? What brings you here today?";
+                }
+                
+                if (lower.match(/^(good|fine|great|okay|ok|im good|i'm good|im fine|doing well|pretty good)$/)) {
+                    return "That's wonderful to hear! 😊 So, what would you like to chat about? I can discuss everyday topics, answer questions, or provide information about Gaza's humanitarian challenges.";
+                }
+                
+                if (lower.match(/not good|not great|bad|sad|tired|stressed|exhausted|overwhelmed/)) {
+                    return "I'm sorry to hear that. 💙 If you want to talk about it, I'm here to listen. Sometimes it helps to just chat. Or if you prefer, I can help distract you with interesting topics. What would help you right now?";
+                }
+                
+                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later|peace out)$/)) {
+                    return "Take care! 👋 It was nice chatting with you. Feel free to come back anytime you want to talk or learn something new. Have a great day!";
                 }
                 
                 if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
                     return "No problem! I understand. If you need anything else later, I'll be here. Take care! 😊";
                 }
                 
-                if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood)$/)) {
-                    return "Glad I could help! 😊 Anything else you'd like to know, or are we good for now?";
+                if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood|makes sense)$/)) {
+                    return "Glad I could help! 😊 Anything else you'd like to know, or should we wrap up for now?";
+                }
+                
+                if (lower.match(/thank|thanks|thx|ty|appreciate|grateful/)) {
+                    return "You're very welcome! 😊 Happy to help anytime. Is there anything else I can do for you?";
                 }
                 
                 if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny|😂|🤣)$/)) {
-                    return "Haha, glad you're in good spirits! 😄 So, want to keep chatting or learn about something specific?";
+                    return "Haha, glad you're enjoying our chat! 😄 Want to keep the conversation going or learn something new?";
                 }
                 
-                if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see)$/)) {
-                    return "Thinking it over? Take your time! If you have questions about anything, just ask. I'm here to help! 🤔";
+                if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see|oh|ohh)$/)) {
+                    return "Thinking it over? Take your time! 🤔 If you have questions about anything - life, tech, Gaza, or just want to chat - I'm all ears!";
                 }
                 
-                if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible)$/)) {
-                    return "Right?! There's a lot to take in. Want me to explain more about any topic, or just chat for a bit? 😊";
+                if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible|unbelievable)$/)) {
+                    return "Right?! Pretty interesting stuff! 😊 Want me to explain more about any topic, or chat about something else?";
                 }
                 
-                if (lower.match(/^(hi|hello|hey|greetings|sup|yo)$/)) {
-                    return "Hey there! 👋 How are you doing today? I'm here to chat or help you learn about Gaza's humanitarian challenges. What's on your mind?";
+                if (lower.match(/who are you|what are you|tell me about yourself|introduce yourself/)) {
+                    return "I'm GAZA 101, a friendly AI assistant! 🤖 I'm here to chat about anything you'd like - from everyday questions to serious topics like Gaza's humanitarian crisis. I aim to be helpful, informative, and conversational. Think of me as a knowledgeable friend who's always ready to talk! What would you like to know?";
                 }
                 
-                if (lower.match(/how are you|how are u|how r u|hows it going|whats up|wassup/)) {
-                    return "I'm doing well, thanks for asking! 😊 I'm here and ready to help. How about you? Is there anything specific you'd like to talk about or learn?";
+                if (lower.match(/what can you do|what do you do|how can you help|help me|capabilities/)) {
+                    return "I can help with lots of things! 😊\n\n💬 Have friendly conversations about any topic\n📚 Answer general knowledge questions\n🌍 Provide detailed info about Gaza's humanitarian challenges (water, food, health, energy, infrastructure, environment)\n💡 Offer practical advice and explanations\n🎓 Discuss science, tech, history, and more\n\nWhat interests you?";
                 }
                 
-                if (lower.match(/^(good|fine|great|okay|ok|im good|i'm good|im fine|doing well)$/)) {
-                    return "That's great to hear! 😊 So, would you like to learn about the humanitarian situation in Gaza, or just have a casual chat?";
+                if (lower.match(/you're nice|you're cool|you're awesome|you're great|good bot|smart|helpful|amazing bot/)) {
+                    return "Aww, thank you! That's really kind of you to say 😊 You seem pretty awesome yourself! It's nice chatting with you. What else would you like to talk about?";
                 }
                 
-                if (lower.match(/not good|not great|bad|sad|tired|stressed/)) {
-                    return "I'm sorry to hear that. 💙 If you want to talk about it, I'm here to listen. Or if you need a distraction, I can share some information about important topics. What would help you right now?";
+                if (lower.match(/how old are you|what's your age|whats your age|age/)) {
+                    return "I don't have an age like humans do! I'm an AI, so I'm kind of timeless. But I was created specifically to help people understand Gaza's situation and chat about all sorts of topics. Curious about anything else?";
                 }
                 
-                if (lower.match(/thank|thanks|thx|ty/)) {
-                    return "You're very welcome! 😊 Is there anything else I can help you with?";
+                if (lower.match(/where are you from|where do you live|location/)) {
+                    return "I exist in the digital world - no specific location! 🌐 But I was created to help people learn about Gaza and engage in meaningful conversations. Speaking of which, what would you like to chat about?";
                 }
                 
-                if (lower.match(/who are you|what are you|tell me about yourself/)) {
-                    return "I'm GAZA 101, a friendly AI assistant! I'm here to chat with you and provide information about humanitarian challenges in Gaza - covering Water, Food, Health, Energy, Infrastructure, and Environmental issues. I can be casual and friendly or dive deep into technical details. Whatever you need! 😊";
-                }
-                
-                if (lower.match(/what can you do|what do you do|how can you help|help me/)) {
-                    return "I can do a few things:\n\n💬 Have friendly conversations (just like this!)\n📚 Share detailed information about Gaza's challenges\n💡 Explain practical solutions with timelines\n📊 Provide statistics and NASA data\n\nWant to chat casually or learn something specific?";
-                }
-                
-                if (lower.match(/joke|funny|make me laugh/)) {
-                    return "Haha, I'm better with facts than jokes! 😅 But here's something cool: Did you know NASA satellites can detect underground water sources from space? Pretty amazing, right? Want to hear more interesting facts?";
-                }
-                
-                if (lower.match(/you're nice|you're cool|you're awesome|you're great|good bot/)) {
-                    return "Aww, thank you! That's really kind of you to say 😊 You seem pretty awesome yourself! What would you like to chat about?";
-                }
-                
-                if (lower.match(/how old are you|what's your age|whats your age/)) {
-                    return "I don't have an age like humans do! I'm an AI, so I'm kind of ageless. But I was created specifically to help people understand Gaza's humanitarian situation. Curious about anything else?";
-                }
-                
-                if (lower.match(/where are you from|where do you live/)) {
-                    return "I exist in the digital world - no specific location! But I was created to help people learn about Gaza and its challenges. Speaking of which, want to know about any specific topic?";
-                }
-                
-                if (lower.match(/do you have feelings|can you feel|are you alive/)) {
-                    return "I don't have feelings the way humans do, but I'm programmed to be helpful and friendly! 😊 I genuinely want to make your experience better. Is there something I can help you with today?";
+                if (lower.match(/do you have feelings|can you feel|are you alive|are you real|emotions/)) {
+                    return "I don't have feelings the way humans do, but I'm programmed to be helpful, friendly, and empathetic! 😊 I genuinely want to make your experience better and provide useful information. Is there something I can help you with?";
                 }
                 
                 if (lower.match(/what's your name|whats your name|your name/)) {
-                    return "I'm GAZA 101! You can think of me as your friendly guide to understanding humanitarian challenges and solutions. Nice to meet you! What should I call you?";
+                    return "I'm GAZA 101! You can think of me as your friendly guide to understanding humanitarian challenges and having great conversations. Nice to meet you! What should I call you?";
                 }
                 
-                if (lower.match(/all|everything|overview|summary|tell me about gaza/)) {
+                if (lower.match(/weather|temperature|forecast|climate|hot|cold|rain|sunny/)) {
+                    return "I don't have access to real-time weather data, but I'd love to chat about climate! 🌤️ Are you asking about the weather where you are, or are you interested in climate topics like Gaza's environmental challenges? Let me know!";
+                }
+                
+                if (lower.match(/what time|what's the time|whats the time|time is it/)) {
+                    return "I don't have access to the current time, but I'm guessing you're wondering about timing for something? Let me know how I can help! ⏰";
+                }
+                
+                if (lower.match(/all|everything|overview|summary|tell me about gaza|gaza crisis|humanitarian/)) {
                     return `🌍 **GAZA OVERVIEW**
 
 Gaza faces 6 major humanitarian challenges:
@@ -483,7 +480,27 @@ Gaza faces 6 major humanitarian challenges:
 5. 🏗️ **Infrastructure** - 60% buildings damaged
 6. 🌍 **Environment** - 450K tons CO2 emissions
 
-Want to know more about any of these?`;
+Want to dive deeper into any of these challenges?`;
+                }
+                
+                if (lower.match(/meaning of life|purpose of life|why are we here/)) {
+                    return "That's one of humanity's biggest questions! 🤔 Philosophers have debated this for centuries. Some find meaning in relationships, others in achievement, helping others, or personal growth. What matters is finding what gives YOUR life meaning. What do you think gives life purpose?";
+                }
+                
+                if (lower.match(/advice|help me decide|what should i do|guidance/)) {
+                    return "I'd love to help! 💡 Tell me more about what you're dealing with, and I'll do my best to offer thoughtful advice. What's the situation?";
+                }
+                
+                if (lower.match(/how to|teach me|learn|tutorial|guide/)) {
+                    return "Great! I love helping people learn. 📚 What would you like to know how to do? Just give me some details and I'll explain it as clearly as I can!";
+                }
+                
+                if (lower.match(/ai|artificial intelligence|machine learning|technology|future|robots/)) {
+                    return "AI and technology are fascinating topics! 🤖 I'm an example of AI myself. We're seeing rapid advances in machine learning, automation, and how technology shapes our world. Are you interested in how AI works, its impact on society, or something else tech-related?";
+                }
+                
+                if (lower.match(/joke|funny|make me laugh|tell me something funny/)) {
+                    return "Haha, I'm better with facts than jokes! 😅 But here's something interesting: Did you know NASA satellites can detect underground water from space using gravity measurements? Pretty cool, right? Want to hear more fascinating facts?";
                 }
                 
                 return null;
@@ -499,18 +516,18 @@ Want to know more about any of these?`;
                     let response;
                     const lower = input.toLowerCase();
 
-                    if ((lower.match(/^(yes|yeah|sure|please|yep|ok|okay)/) || lower.includes('solution')) && lastTopic) {
+                    if ((lower.match(/^(yes|yeah|sure|please|yep|ok|okay|sure thing|absolutely)/) || lower.includes('solution')) && lastTopic) {
                         response = solutions[lastTopic];
                         setLastTopic(null);
                     }
-                    else if (lower.match(/^(no|nope|not now|later|maybe later)/) && lastTopic) {
-                        response = "No problem! What else would you like to discuss? I can explain any of the 6 challenges: Water, Food, Health, Energy, Infrastructure, or Environment.";
+                    else if (lower.match(/^(no|nope|not now|later|maybe later|no thanks)/) && lastTopic) {
+                        response = "No problem! What else would you like to discuss? I can explain any of the humanitarian challenges, or we can chat about something completely different!";
                         setLastTopic(null);
                     }
                     else {
-                        const conversational = getConversationalResponse(input);
-                        if (conversational) {
-                            response = conversational;
+                        const generalResponse = getGeneralResponse(input);
+                        if (generalResponse) {
+                            response = generalResponse;
                         }
                         else {
                             const topic = detectTopic(input);
@@ -519,16 +536,15 @@ Want to know more about any of these?`;
                                 setLastTopic(topic);
                             }
                             else {
-                                response = `I can help you understand the humanitarian situation in Gaza. Try asking about:
+                                response = `I'm here to help! You can ask me about:
 
-💧 **Water** - contamination, scarcity, purification
-🌾 **Food** - malnutrition, agriculture, aid
-🏥 **Health** - medical crisis, diseases, mental health
-⚡ **Energy** - power shortages, solar solutions
-🏗️ **Infrastructure** - damage, rebuilding, rubble recycling
-🌍 **Environment** - CO2, air quality, reforestation
+🌍 **Gaza Crisis Topics:**
+💧 Water | 🌾 Food | 🏥 Health | ⚡ Energy | 🏗️ Infrastructure | 🌍 Environment
 
-Or ask for an "overview" to see all challenges at once!`;
+💬 **General Chat:**
+Life advice, explanations, tech topics, or just friendly conversation!
+
+What interests you?`;
                             }
                         }
                     }
@@ -552,6 +568,7 @@ Or ask for an "overview" to see all challenges at once!`;
                     <button
                         className="chatbot-button"
                         onClick={() => setIsOpen(true)}
+                        aria-label="Open chat"
                         style={{
                             position: 'fixed',
                             bottom: '24px',
@@ -563,13 +580,14 @@ Or ask for an "overview" to see all challenges at once!`;
                             border: '3px solid rgba(255, 255, 255, 0.3)',
                             cursor: 'pointer',
                             boxShadow: '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)',
-                            zIndex: 9999,
+                            zIndex: 10000,
                             transition: 'all 0.3s ease',
                             width: '70px',
                             height: '70px',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            opacity: 1
                         }}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'scale(1.15)';
@@ -594,22 +612,23 @@ Or ask for an "overview" to see all challenges at once!`;
                         right: '24px',
                         width: '420px',
                         height: '650px',
-                        background: 'rgba(30, 15, 50, 0.95)',
+                        background: 'rgb(30, 15, 50)',
                         backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(138, 43, 226, 0.3)',
+                        border: '2px solid rgb(138, 43, 226)',
                         borderRadius: '16px',
-                        boxShadow: '0 15px 40px rgba(138, 43, 226, 0.4)',
+                        boxShadow: '0 15px 50px rgba(138, 43, 226, 0.6)',
                         display: 'flex',
                         flexDirection: 'column',
-                        zIndex: 9999
+                        zIndex: 10000,
+                        opacity: 1
                     }}
                 >
                     <div 
                         style={{
                             background: 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))',
                             padding: '16px',
-                            borderTopLeftRadius: '16px',
-                            borderTopRightRadius: '16px',
+                            borderTopLeftRadius: '14px',
+                            borderTopRightRadius: '14px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
@@ -622,7 +641,7 @@ Or ask for an "overview" to see all challenges at once!`;
                             </div>
                             <div>
                                 <h3 style={{ color: 'white', fontWeight: 'bold', margin: 0 }}>GAZA 101 Assistant</h3>
-                                <p style={{ color: 'rgb(233, 213, 255)', fontSize: '12px', margin: 0 }}>Crisis Information & Solutions</p>
+                                <p style={{ color: 'rgb(233, 213, 255)', fontSize: '12px', margin: 0 }}>Your Friendly AI Helper</p>
                             </div>
                         </div>
                         <button
@@ -724,7 +743,7 @@ Or ask for an "overview" to see all challenges at once!`;
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                placeholder="Ask about water, food, health..."
+                                placeholder="Ask me anything..."
                                 className="input-field"
                                 style={{
                                     flex: 1,
