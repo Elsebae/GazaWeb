@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -472,6 +473,55 @@
                 height: auto;
             }
         }
+                /* Tablet styles */
+        @media (max-width: 768px) {
+            .chatbot-open {
+                width: 90vw !important;
+                height: 80vh !important;
+                left: 5vw !important;
+                right: 5vw !important;
+                bottom: 15px !important;
+            }
+            .chatbot-button {
+                width: 60px !important;
+                height: 60px !important;
+                bottom: 20px !important;
+                right: 20px !important;
+            }
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 480px) {
+            .chatbot-open {
+                width: 100vw !important;
+                height: 100vh !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                top: 0 !important;
+                border-radius: 0 !important;
+            }
+            .chatbot-button {
+                width: 56px !important;
+                height: 56px !important;
+                bottom: 16px !important;
+                right: 16px !important;
+                padding: 14px !important;
+            }
+            .message-text {
+                font-size: 14px !important;
+            }
+            .input-field {
+                font-size: 16px !important;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .chatbot-button {
+                width: 50px !important;
+                height: 50px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -606,7 +656,741 @@
             </div>
         </div>
     </footer>
+ <div id="chatbot-root"></div>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
 
+        const Send = ({ size = 24 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m22 2-7 20-4-9-9-4Z"/>
+                <path d="M22 2 11 13"/>
+            </svg>
+        );
+
+        const Bot = ({ size = 24 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 8V4H8"/>
+                <rect width="16" height="12" x="4" y="8" rx="2"/>
+                <path d="M2 14h2"/>
+                <path d="M20 14h2"/>
+                <path d="M15 13v2"/>
+                <path d="M9 13v2"/>
+            </svg>
+        );
+
+        const User = ({ size = 24 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+        );
+
+        const MessageCircle = ({ size = 24 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+            </svg>
+        );
+
+        const X = ({ size = 24 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6 6 18"/>
+                <path d="m6 6 12 12"/>
+            </svg>
+        );
+
+        const GazaChatbot = () => {
+            const [messages, setMessages] = useState([
+                {
+                    type: 'bot',
+                    text: "🌍 GAZA 101 - Your Friendly AI Assistant\n\nHey there! I'm here to help you with:\n\n💬 General conversations & questions\n🎓 Gaza humanitarian crisis information\n💡 Practical advice & explanations\n\nI can discuss anything from daily life topics to detailed crisis analysis. What's on your mind?"
+                }
+            ]);
+            const [input, setInput] = useState('');
+            const [isOpen, setIsOpen] = useState(false);
+            const [lastTopic, setLastTopic] = useState(null);
+            const messagesEndRef = useRef(null);
+
+            const scrollToBottom = () => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            };
+
+            useEffect(() => {
+                scrollToBottom();
+            }, [messages]);
+
+            const problemDescriptions = {
+                water: `💧 **WATER CRISIS - The Problem**
+
+**Critical Issues:**
+• 96% of water in Gaza is unfit for human consumption
+• Only 15-20 liters/person/day available (WHO minimum: 50-100 liters)
+• Coastal aquifer is 70% over-extracted with severe seawater intrusion
+• 85% of wastewater goes untreated, causing disease outbreaks
+
+**Primary Challenges:**
+- Aquifer contamination from conflict damage and sewage
+- Damaged water infrastructure and distribution systems
+- Limited electricity for water pumping and treatment
+- High salinity levels (6x WHO safety standards)
+
+**Would you like me to provide specific solutions for this challenge?**`,
+
+                food: `🌾 **FOOD SECURITY CRISIS - The Problem**
+
+**Critical Issues:**
+• 93% of Gaza's population faces crisis-level food insecurity
+• 30% of children under 5 are acutely malnourished
+• Local food production meets only 15% of population needs
+• Food prices have increased 300% compared to pre-crisis
+
+**Primary Challenges:**
+- 65% reduction in arable land since 2000 (NASA data)
+- Damaged agricultural infrastructure and irrigation systems
+- Limited access to seeds, fertilizers, and farming equipment
+- Disrupted supply chains and distribution networks
+
+**Would you like me to provide specific solutions for this challenge?**`,
+
+                health: `🏥 **HEALTHCARE CRISIS - The Problem**
+
+**Critical Issues:**
+• 72% of hospitals in Gaza are non-functional
+• Only 12 partially functioning hospitals for 2.3 million people
+• Respiratory infections: 450,000 cases monthly
+• Diarrheal diseases: 150,000 cases in children monthly
+
+**Primary Challenges:**
+- Critical shortage of medical supplies, equipment, and medicines
+- 80% of children show trauma symptoms, 50% of adults report severe distress
+- Overwhelmed remaining healthcare facilities
+- Limited access to specialized care and emergency services
+
+**Would you like me to provide specific solutions for this challenge?**`,
+
+                co2: `🌍 **CO2 & ENVIRONMENTAL CRISIS - The Problem**
+
+**Critical Issues:**
+• 450,000 tons of CO2 emissions from conflict activities (NASA data)
+• Air quality: PM2.5 levels 45-65 μg/m³ (WHO safe limit: 15 μg/m³)
+• 40% reduction in green spaces and carbon sequestration capacity
+• Temperature increase of 1.2°C since 1990
+
+**Primary Challenges:**
+- Building destruction releasing concrete particulates and toxins
+- Military operations consuming massive fuel resources
+- Waste burning of plastics and hazardous materials
+- Long-term environmental degradation and soil contamination
+
+**Would you like me to provide specific solutions for this challenge?**`,
+
+                energy: `⚡ **ENERGY CRISIS - The Problem**
+
+**Critical Issues:**
+• Average 2-4 hours of electricity daily across Gaza
+• Hospitals rely on unreliable generators for critical operations
+• Water pumps often inoperative due to power shortages
+• Limited fuel supplies for essential services
+
+**Primary Challenges:**
+- Damaged electrical grid infrastructure
+- Limited access to reliable power sources
+- High dependence on external fuel supplies
+- Critical facilities operating at minimal capacity
+
+**Would you like me to provide specific solutions for this challenge?**`,
+
+                infrastructure: `🏗️ **INFRASTRUCTURE CRISIS - The Problem**
+
+**Critical Issues:**
+• 60% of buildings damaged or destroyed in conflict areas
+• Road networks severely damaged affecting aid delivery
+• Communication infrastructure largely non-functional
+• Sanitation systems collapsed leading to health hazards
+
+**Primary Challenges:**
+- Comprehensive damage to housing, schools, and public facilities
+- Limited construction materials and equipment for rebuilding
+- Coordination challenges for large-scale reconstruction
+- Need for temporary shelter solutions for displaced populations
+
+**Would you like me to provide specific solutions for this challenge?**`
+            };
+
+            const solutions = {
+                water: `🚰 **WATER CRISIS SOLUTIONS**
+
+**Immediate Actions (0-2 weeks):**
+• Distribute chlorine tablets (1 tablet per 20L water) - 2 weeks
+• Deploy portable filtration units in high-risk areas - 2 weeks
+• Establish emergency water distribution points - 1 week
+• Install solar-powered atmospheric water generators
+• Mobile desalination units powered by solar energy
+
+**Short-term Solutions (2-8 weeks):**
+• Install rainwater harvesting systems - 1 month
+• Repair damaged water infrastructure - 2 months
+• Implement community water safety monitoring - 3 weeks
+• Artificial aquifer recharge using NASA satellite data
+• Precision irrigation systems guided by SMAP data
+
+**Materials Needed:**
+Chlorine tablets, ceramic filters, polyethylene tanks, solar panels, RO membranes, atmospheric water generators
+
+**NASA Technology:** GRACE, SMAP, and Landsat data to identify groundwater levels and optimal locations for water infrastructure.`,
+
+                food: `🌱 **FOOD SECURITY SOLUTIONS**
+
+**Immediate Actions (0-2 weeks):**
+• Distribute ready-to-use therapeutic food (RUTF) - Immediate
+• Establish emergency community kitchens - 2 weeks
+• Provide nutrition supplements for children - 1 week
+• Set up feeding centers for malnourished children
+• ORS (Oral Rehydration Solution) distribution
+
+**Short-term Solutions (2-8 weeks):**
+• Start vertical farming with hydroponics - 6 weeks
+• Implement urban agriculture programs - 2 months
+• Deploy greenhouse systems - 1.5 months
+• Community gardening initiatives - 3 weeks
+• Seed and fertilizer distribution programs
+
+**Materials Needed:**
+RUTF packets, hydroponic kits, seeds (native drought-resistant), gardening tools, greenhouse materials, irrigation equipment
+
+**NASA Technology:** MODIS vegetation indices to identify suitable agricultural zones and monitor crop health.`,
+
+                health: `🏥 **HEALTHCARE SOLUTIONS**
+
+**Immediate Actions (0-2 weeks):**
+• Deploy mobile trauma units - 2 weeks
+• Distribute emergency medical kits - 1 week
+• Establish mental health first aid programs - 2 weeks
+• Set up temporary tent hospitals with triage systems
+• Rapid Response Teams for outbreak detection
+
+**Short-term Solutions (2-8 weeks):**
+• Set up telemedicine networks - 1 month
+• Train community health workers - 3 weeks
+• Malnutrition screening programs - 2 weeks
+• Psychological First Aid (PFA) training - 1 month
+• Establish maternal and child health clinics
+
+**Materials Needed:**
+Medical equipment, telemedicine terminals, medicines, surgical supplies, oxygen concentrators, IV fluids, antibiotics, mental health resources
+
+**Key Focus Areas:**
+- Emergency care and trauma treatment
+- Disease outbreak prevention
+- Mental health support (PTSD, trauma counseling)
+- Nutrition programs for children`,
+
+                co2: `🌿 **CO2 MITIGATION & ENVIRONMENTAL SOLUTIONS**
+
+**Immediate Actions (0-2 weeks):**
+• Establish waste management systems - 2 weeks
+• Distribute clean cooking technologies - 1 week
+• Launch air quality monitoring stations - 1 week
+• Stop open burning of waste materials
+• Deploy portable air purifiers in high-risk areas
+
+**Short-term Solutions (2-8 weeks):**
+• Implement solar energy microgrids - 1 month
+• Start reforestation programs (Project Re-Green Gaza) - 2 months
+• Enhanced weathering with basalt rock dust
+• Restore Wadi Gaza wetland and Green Belt dunes
+• Soil remediation for carbon sequestration
+
+**Materials Needed:**
+Solar panels, waste management equipment, native saplings (drought-resistant species), basalt rock dust, air quality sensors, clean cook stoves
+
+**NASA Technology:**
+- Landsat 8/9 for vegetation mapping
+- MODIS for ecosystem monitoring
+- AVIRIS for soil degradation assessment
+- Data-driven re-vegetation targeting carbon sequestration zones`,
+
+                energy: `⚡ **ENERGY SOLUTIONS**
+
+**Immediate Actions (0-2 weeks):**
+• Distribute portable solar power banks - 2 weeks
+• Deploy solar-powered lighting systems - 1 week
+• Provide generators to critical facilities (hospitals) - Immediate
+• Install battery storage for essential services
+• Fuel distribution for emergency operations
+
+**Short-term Solutions (2-8 weeks):**
+• Install solar microgrids in neighborhoods - 1 month
+• Implement energy-efficient building designs - 2 months
+• Deploy wind-solar hybrid systems - 6 weeks
+• Community solar charging stations - 3 weeks
+• Solar water heaters for homes and facilities
+
+**Materials Needed:**
+Solar panels (polycrystalline/monocrystalline), batteries (lithium-ion storage), power banks, LED lighting systems, charge controllers, inverters
+
+**Benefits:**
+- Reduces dependence on unreliable grid
+- Powers critical healthcare facilities 24/7
+- Enables water pumping and purification
+- Sustainable and renewable energy source`,
+
+                infrastructure: `🏗️ **INFRASTRUCTURE SOLUTIONS**
+
+**Immediate Actions (0-2 weeks):**
+• Set up temporary shelters (weatherproof tents) - 2 weeks
+• Establish basic sanitation facilities - 1 week
+• Repair critical access roads for aid delivery - 2 weeks
+• Deploy portable toilets and handwashing stations
+• Clear debris from main transportation routes
+
+**Short-term Solutions (2-8 weeks):**
+• Rebuild damaged schools and hospitals - 3 months
+• Restore communication networks - 2 months
+• Rubble recycling programs - ongoing
+• Modular housing construction - 2 months
+• Water and sewage system repairs - 6 weeks
+
+**Rubble Recycling Initiative:**
+- Sort materials: concrete, steel, wood, glass
+- Crush concrete into gravel for roads
+- Recover steel bars for construction
+- Create jobs while rebuilding
+
+**Materials Needed:**
+Temporary shelters, construction materials, sanitation equipment, concrete crushers, sorting facilities, construction tools
+
+**NASA Technology:** High-resolution satellite imagery to assess damage and plan reconstruction priorities.`
+            };
+
+            const detectTopic = (input) => {
+                const lower = input.toLowerCase();
+                if (lower.match(/water|drink|thirst|well|desalination|purification/)) return 'water';
+                if (lower.match(/food|hunger|nutrition|farm|agriculture|crop/)) return 'food';
+                if (lower.match(/health|medical|hospital|doctor|disease|treatment/)) return 'health';
+                if (lower.match(/co2|carbon|emission|environment|pollution|air|green/)) return 'co2';
+                if (lower.match(/energy|power|solar|electric|fuel|generator/)) return 'energy';
+                if (lower.match(/infrastructure|building|construction|road|shelter|house|rubble/)) return 'infrastructure';
+                return null;
+            };
+
+            const getGeneralResponse = (input) => {
+                const lower = input.toLowerCase();
+                
+                if (lower.match(/^(hi|hello|hey|greetings|sup|yo|good morning|good afternoon|good evening)$/)) {
+                    return "Hey there! 👋 How are you doing today? I'm here to chat about anything - from everyday topics to important issues like Gaza's humanitarian situation. What's on your mind?";
+                }
+                
+                if (lower.match(/how are you|how are u|how r u|hows it going|whats up|wassup/)) {
+                    return "I'm doing great, thanks for asking! 😊 I'm here and ready to help with whatever you need. How about you? What brings you here today?";
+                }
+                
+                if (lower.match(/^(good|fine|great|okay|ok|im good|i'm good|im fine|doing well|pretty good)$/)) {
+                    return "That's wonderful to hear! 😊 So, what would you like to chat about? I can discuss everyday topics, answer questions, or provide information about Gaza's humanitarian challenges.";
+                }
+                
+                if (lower.match(/not good|not great|bad|sad|tired|stressed|exhausted|overwhelmed/)) {
+                    return "I'm sorry to hear that. 💙 If you want to talk about it, I'm here to listen. Sometimes it helps to just chat. Or if you prefer, I can help distract you with interesting topics. What would help you right now?";
+                }
+                
+                if (lower.match(/^(bye|goodbye|see ya|see you|gotta go|gtg|talk later|later|peace out)$/)) {
+                    return "Take care! 👋 It was nice chatting with you. Feel free to come back anytime you want to talk or learn something new. Have a great day!";
+                }
+                
+                if (lower.match(/enough|that's enough|thats enough|i'm done|im done|stop|no more/)) {
+                    return "No problem! I understand. If you need anything else later, I'll be here. Take care! 😊";
+                }
+                
+                if (lower.match(/^(good|great|perfect|excellent|awesome|nice|cool|ok got it|okay got it|understood|makes sense)$/)) {
+                    return "Glad I could help! 😊 Anything else you'd like to know, or should we wrap up for now?";
+                }
+                
+                if (lower.match(/thank|thanks|thx|ty|appreciate|grateful/)) {
+                    return "You're very welcome! 😊 Happy to help anytime. Is there anything else I can do for you?";
+                }
+                
+                if (lower.match(/^(haha|hehe|lol|lmao|hahaha|funny|😂|🤣)$/)) {
+                    return "Haha, glad you're enjoying our chat! 😄 Want to keep the conversation going or learn something new?";
+                }
+                
+                if (lower.match(/^(hmm|hmmm|umm|ummm|interesting|i see|oh|ohh)$/)) {
+                    return "Thinking it over? Take your time! 🤔 If you have questions about anything - life, tech, Gaza, or just want to chat - I'm all ears!";
+                }
+                
+                if (lower.match(/^(wow|whoa|woah|omg|oh my god|amazing|incredible|unbelievable)$/)) {
+                    return "Right?! Pretty interesting stuff! 😊 Want me to explain more about any topic, or chat about something else?";
+                }
+                
+                if (lower.match(/who are you|what are you|tell me about yourself|introduce yourself/)) {
+                    return "I'm GAZA 101, a friendly AI assistant! 🤖 I'm here to chat about anything you'd like - from everyday questions to serious topics like Gaza's humanitarian crisis. I aim to be helpful, informative, and conversational. Think of me as a knowledgeable friend who's always ready to talk! What would you like to know?";
+                }
+                
+                if (lower.match(/what can you do|what do you do|how can you help|help me|capabilities/)) {
+                    return "I can help with lots of things! 😊\n\n💬 Have friendly conversations about any topic\n📚 Answer general knowledge questions\n🌍 Provide detailed info about Gaza's humanitarian challenges (water, food, health, energy, infrastructure, environment)\n💡 Offer practical advice and explanations\n🎓 Discuss science, tech, history, and more\n\nWhat interests you?";
+                }
+                
+                if (lower.match(/you're nice|you're cool|you're awesome|you're great|good bot|smart|helpful|amazing bot/)) {
+                    return "Aww, thank you! That's really kind of you to say 😊 You seem pretty awesome yourself! It's nice chatting with you. What else would you like to talk about?";
+                }
+                
+                if (lower.match(/how old are you|what's your age|whats your age|age/)) {
+                    return "I don't have an age like humans do! I'm an AI, so I'm kind of timeless. But I was created specifically to help people understand Gaza's situation and chat about all sorts of topics. Curious about anything else?";
+                }
+                
+                if (lower.match(/where are you from|where do you live|location/)) {
+                    return "I exist in the digital world - no specific location! 🌐 But I was created to help people learn about Gaza and engage in meaningful conversations. Speaking of which, what would you like to chat about?";
+                }
+                
+                if (lower.match(/do you have feelings|can you feel|are you alive|are you real|emotions/)) {
+                    return "I don't have feelings the way humans do, but I'm programmed to be helpful, friendly, and empathetic! 😊 I genuinely want to make your experience better and provide useful information. Is there something I can help you with?";
+                }
+                
+                if (lower.match(/what's your name|whats your name|your name/)) {
+                    return "I'm GAZA 101! You can think of me as your friendly guide to understanding humanitarian challenges and having great conversations. Nice to meet you! What should I call you?";
+                }
+                
+                if (lower.match(/weather|temperature|forecast|climate|hot|cold|rain|sunny/)) {
+                    return "I don't have access to real-time weather data, but I'd love to chat about climate! 🌤️ Are you asking about the weather where you are, or are you interested in climate topics like Gaza's environmental challenges? Let me know!";
+                }
+                
+                if (lower.match(/what time|what's the time|whats the time|time is it/)) {
+                    return "I don't have access to the current time, but I'm guessing you're wondering about timing for something? Let me know how I can help! ⏰";
+                }
+                
+                if (lower.match(/all|everything|overview|summary|tell me about gaza|gaza crisis|humanitarian/)) {
+                    return `🌍 **GAZA OVERVIEW**
+
+Gaza faces 6 major humanitarian challenges:
+
+1. 💧 **Water** - 96% unfit for consumption
+2. 🌾 **Food** - 93% face food insecurity
+3. 🏥 **Health** - 72% hospitals non-functional
+4. ⚡ **Energy** - 2-4 hours electricity daily
+5. 🏗️ **Infrastructure** - 60% buildings damaged
+6. 🌍 **Environment** - 450K tons CO2 emissions
+
+Want to dive deeper into any of these challenges?`;
+                }
+                
+                if (lower.match(/meaning of life|purpose of life|why are we here/)) {
+                    return "That's one of humanity's biggest questions! 🤔 Philosophers have debated this for centuries. Some find meaning in relationships, others in achievement, helping others, or personal growth. What matters is finding what gives YOUR life meaning. What do you think gives life purpose?";
+                }
+                
+                if (lower.match(/advice|help me decide|what should i do|guidance/)) {
+                    return "I'd love to help! 💡 Tell me more about what you're dealing with, and I'll do my best to offer thoughtful advice. What's the situation?";
+                }
+                
+                if (lower.match(/how to|teach me|learn|tutorial|guide/)) {
+                    return "Great! I love helping people learn. 📚 What would you like to know how to do? Just give me some details and I'll explain it as clearly as I can!";
+                }
+                
+                if (lower.match(/ai|artificial intelligence|machine learning|technology|future|robots/)) {
+                    return "AI and technology are fascinating topics! 🤖 I'm an example of AI myself. We're seeing rapid advances in machine learning, automation, and how technology shapes our world. Are you interested in how AI works, its impact on society, or something else tech-related?";
+                }
+                
+                if (lower.match(/joke|funny|make me laugh|tell me something funny/)) {
+                    return "Haha, I'm better with facts than jokes! 😅 But here's something interesting: Did you know NASA satellites can detect underground water from space using gravity measurements? Pretty cool, right? Want to hear more fascinating facts?";
+                }
+                
+                return null;
+            };
+
+            const handleSend = () => {
+                if (!input.trim()) return;
+
+                const userMessage = { type: 'user', text: input };
+                setMessages(prev => [...prev, userMessage]);
+
+                setTimeout(() => {
+                    let response;
+                    const lower = input.toLowerCase();
+
+                    if ((lower.match(/^(yes|yeah|sure|please|yep|ok|okay|sure thing|absolutely)/) || lower.includes('solution')) && lastTopic) {
+                        response = solutions[lastTopic];
+                        setLastTopic(null);
+                    }
+                    else if (lower.match(/^(no|nope|not now|later|maybe later|no thanks)/) && lastTopic) {
+                        response = "No problem! What else would you like to discuss? I can explain any of the humanitarian challenges, or we can chat about something completely different!";
+                        setLastTopic(null);
+                    }
+                    else {
+                        const generalResponse = getGeneralResponse(input);
+                        if (generalResponse) {
+                            response = generalResponse;
+                        }
+                        else {
+                            const topic = detectTopic(input);
+                            if (topic) {
+                                response = problemDescriptions[topic];
+                                setLastTopic(topic);
+                            }
+                            else {
+                                response = `I'm here to help! You can ask me about:
+
+🌍 **Gaza Crisis Topics:**
+💧 Water | 🌾 Food | 🏥 Health | ⚡ Energy | 🏗️ Infrastructure | 🌍 Environment
+
+💬 **General Chat:**
+Life advice, explanations, tech topics, or just friendly conversation!
+
+What interests you?`;
+                            }
+                        }
+                    }
+
+                    const botResponse = { type: 'bot', text: response };
+                    setMessages(prev => [...prev, botResponse]);
+                }, 500);
+
+                setInput('');
+            };
+
+            const handleKeyPress = (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                }
+            };
+
+            if (!isOpen) {
+                return (
+                    <button
+                        className="chatbot-button"
+                        onClick={() => setIsOpen(true)}
+                        aria-label="Open chat"
+                        style={{
+                            position: 'fixed',
+                            bottom: '24px',
+                            right: '24px',
+                            background: 'linear-gradient(135deg, rgb(138, 43, 226), rgb(187, 134, 252))',
+                            color: 'white',
+                            padding: '18px',
+                            borderRadius: '50%',
+                            border: '3px solid rgba(255, 255, 255, 0.3)',
+                            cursor: 'pointer',
+                            boxShadow: '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)',
+                            zIndex: 10000,
+                            transition: 'all 0.3s ease',
+                            width: '70px',
+                            height: '70px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            opacity: 1
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.15)';
+                            e.currentTarget.style.boxShadow = '0 0 40px rgba(187, 134, 252, 1), 0 12px 35px rgba(0,0,0,0.5)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.8), 0 8px 25px rgba(0,0,0,0.4)';
+                        }}
+                    >
+                        <MessageCircle size={32} />
+                    </button>
+                );
+            }
+
+            return (
+                <div 
+                    className="chatbot-open"
+                    style={{
+                        position: 'fixed',
+                        bottom: '24px',
+                        right: '24px',
+                        width: '420px',
+                        height: '650px',
+                        background: 'rgb(30, 15, 50)',
+                        backdropFilter: 'blur(10px)',
+                        border: '2px solid rgb(138, 43, 226)',
+                        borderRadius: '16px',
+                        boxShadow: '0 15px 50px rgba(138, 43, 226, 0.6)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        zIndex: 10000,
+                        opacity: 1
+                    }}
+                >
+                    <div 
+                        style={{
+                            background: 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))',
+                            padding: '16px',
+                            borderTopLeftRadius: '14px',
+                            borderTopRightRadius: '14px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            boxShadow: '0 4px 15px rgba(138, 43, 226, 0.4)'
+                        }}
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ background: 'rgba(255, 255, 255, 0.2)', padding: '8px', borderRadius: '50%' }}>
+                                <Bot size={24} />
+                            </div>
+                            <div>
+                                <h3 style={{ color: 'white', fontWeight: 'bold', margin: 0 }}>GAZA 101 Assistant</h3>
+                                <p style={{ color: 'rgb(233, 213, 255)', fontSize: '12px', margin: 0 }}>Your Friendly AI Helper</p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            style={{
+                                color: 'white',
+                                background: 'transparent',
+                                border: 'none',
+                                padding: '8px',
+                                borderRadius: '50%',
+                                cursor: 'pointer',
+                                transition: 'background 0.3s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                        >
+                            <X size={20} />
+                        </button>
+                    </div>
+
+                    <div 
+                        style={{
+                            flex: 1,
+                            overflowY: 'auto',
+                            padding: '16px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '16px'
+                        }}
+                    >
+                        {messages.map((msg, idx) => (
+                            <div
+                                key={idx}
+                                style={{
+                                    display: 'flex',
+                                    gap: '8px',
+                                    justifyContent: msg.type === 'user' ? 'flex-end' : 'flex-start'
+                                }}
+                            >
+                                {msg.type === 'bot' && (
+                                    <div style={{
+                                        background: 'rgb(138, 43, 226)',
+                                        padding: '8px',
+                                        borderRadius: '50%',
+                                        width: '32px',
+                                        height: '32px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    }}>
+                                        <Bot size={16} />
+                                    </div>
+                                )}
+                                <div
+                                    style={{
+                                        maxWidth: '80%',
+                                        padding: '12px',
+                                        borderRadius: '16px',
+                                        borderBottomLeftRadius: msg.type === 'bot' ? 0 : '16px',
+                                        borderBottomRightRadius: msg.type === 'user' ? 0 : '16px',
+                                        whiteSpace: 'pre-line',
+                                        background: msg.type === 'user' 
+                                            ? 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))'
+                                            : 'rgba(138, 43, 226, 0.2)',
+                                        border: msg.type === 'bot' ? '1px solid rgba(138, 43, 226, 0.3)' : 'none',
+                                        color: msg.type === 'user' ? 'white' : 'rgb(233, 213, 255)',
+                                        fontSize: '15px',
+                                        lineHeight: '1.5'
+                                    }}
+                                    className="message-text"
+                                >
+                                    {msg.text}
+                                </div>
+                                {msg.type === 'user' && (
+                                    <div style={{
+                                        background: 'rgb(138, 43, 226)',
+                                        padding: '8px',
+                                        borderRadius: '50%',
+                                        width: '32px',
+                                        height: '32px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    }}>
+                                        <User size={16} />
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    <div style={{ padding: '16px', borderTop: '1px solid rgba(138, 43, 226, 0.3)' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                placeholder="Ask me anything..."
+                                className="input-field"
+                                style={{
+                                    flex: 1,
+                                    padding: '12px 16px',
+                                    borderRadius: '12px',
+                                    background: 'rgba(138, 43, 226, 0.2)',
+                                    border: '1px solid rgba(138, 43, 226, 0.3)',
+                                    color: 'white',
+                                    outline: 'none',
+                                    fontSize: '14px'
+                                }}
+                                onFocus={(e) => {
+                                    e.currentTarget.style.borderColor = 'rgb(187, 134, 252)';
+                                    e.currentTarget.style.boxShadow = '0 0 15px rgba(138, 43, 226, 0.3)';
+                                }}
+                                onBlur={(e) => {
+                                    e.currentTarget.style.borderColor = 'rgba(138, 43, 226, 0.3)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}
+                            />
+                            <button
+                                onClick={handleSend}
+                                disabled={!input.trim()}
+                                style={{
+                                    padding: '12px',
+                                    borderRadius: '12px',
+                                    background: input.trim() 
+                                        ? 'linear-gradient(45deg, rgb(138, 43, 226), rgb(147, 112, 219))'
+                                        : 'rgba(138, 43, 226, 0.3)',
+                                    border: 'none',
+                                    color: 'white',
+                                    cursor: input.trim() ? 'pointer' : 'not-allowed',
+                                    opacity: input.trim() ? 1 : 0.5,
+                                    boxShadow: input.trim() ? '0 4px 15px rgba(138, 43, 226, 0.4)' : 'none',
+                                    transition: 'all 0.3s'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (input.trim()) e.currentTarget.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                }}
+                            >
+                                <Send size={20} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('chatbot-root'));
+        root.render(<GazaChatbot />);
+    </script>
 </body>
 
 </html>
